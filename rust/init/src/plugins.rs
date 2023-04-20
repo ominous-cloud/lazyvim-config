@@ -260,6 +260,32 @@ pub fn default(lua: &'static Lua) -> LuaResult<LuaTable> {
                 },
             },
             tbl! {
+                1, "nvim-telescope/telescope.nvim",
+                "keys", list! {
+                    list! { "<leader><space>", false, },
+                    list! {
+                        "<leader>fr", fun(lua, r#"
+                            require("lazyvim.util").telescope("live_grep")()
+                        "#.to_string())?,
+                    },
+                    list! {
+                        "<leader>fR", fun(lua, r#"
+                            require("lazyvim.util").telescope("live_grep", { cwd = false })()
+                        "#.to_string())?,
+                    },
+                    list! {
+                        "<leader>fe", fun(lua, r#"
+                            require("lazyvim.util").telescope("files")()
+                        "#.to_string())?,
+                    },
+                    list! {
+                        "<leader>fE", fun(lua, r#"
+                            require("lazyvim.util").telescope("files", { cwd = false })()
+                        "#.to_string())?,
+                    },
+                },
+            },
+            tbl! {
                 1, "echasnovski/mini.comment",
                 "opts", tbl! {
                     "hooks", tbl! {
