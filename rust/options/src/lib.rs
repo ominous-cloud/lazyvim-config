@@ -14,6 +14,7 @@ fn config_options(_: &Lua) -> LuaResult<LuaValue> {
     opt!("cursorline", false);
     opt!("ruler", false);
 
+    opt!("wrap", true);
     opt!("ignorecase", false);
 
     opt!("autowrite", false);

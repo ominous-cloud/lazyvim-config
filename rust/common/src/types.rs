@@ -56,12 +56,14 @@ impl Object {
         }
     }
 
-    pub unsafe fn into_string(self) -> String {
-        let s = String {
-            ..*self.data.string
-        };
-        core::mem::forget(self);
-        s
+    pub fn into_string(self) -> String {
+        unsafe {
+            let s = String {
+                ..*self.data.string
+            };
+            core::mem::forget(self);
+            s
+        }
     }
 }
 
@@ -248,6 +250,16 @@ impl<T> KVec<T> {
         }
 
         self.size += 1;
+    }
+}
+
+impl<T> Default for KVec<T> {
+    fn default() -> Self {
+        Self {
+            items: core::ptr::null_mut(),
+            size: 0,
+            capacity: 0,
+        }
     }
 }
 

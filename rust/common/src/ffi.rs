@@ -20,4 +20,13 @@ extern "C" {
         opts: *const nvim::KeyDict_option,
         err: *mut types::Error,
     );
+
+    pub fn nvim_set_keymap(
+        channel_id: u64,
+        mode: types::String,
+        lhs: types::String,
+        rhs: types::String,
+        opts: *const nvim::KeyDict_keymap,
+        err: *mut types::Error,
+    );
 }

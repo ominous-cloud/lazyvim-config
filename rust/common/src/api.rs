@@ -15,7 +15,7 @@ pub fn get_option(opt: &str) -> Result<String, Box<dyn std::error::Error>> {
     let res = unsafe { ffi::nvim_get_option_value(name, &opts, &mut err) };
     match res.ty {
         types::ObjectKind::String => {
-            let res = unsafe { res.into_string() };
+            let res = res.into_string();
             let res = res.to_string_lossy();
             Ok(res.to_string())
         }
@@ -38,5 +38,17 @@ where
 pub fn prepend(opt: &str, value: String) -> Result<(), Box<dyn std::error::Error>> {
     let list = get_option(opt)?;
     set_option(opt, format!("{},{}", list, value))?;
+    Ok(())
+}
+
+pub fn keymap(mode: &str, lhs: &str, rhs: &str) -> Result<(), Box<dyn std::error::Error>> {
+    let mode = mode.into();
+    let lhs = lhs.into();
+    let rhs = rhs.into();
+    let opts = nvim::KeyDict_keymap::new();
+    let mut err = types::Error::default();
+    unsafe {
+        ffi::nvim_set_keymap(0, mode, lhs, rhs, &opts, &mut err);
+    }
     Ok(())
 }

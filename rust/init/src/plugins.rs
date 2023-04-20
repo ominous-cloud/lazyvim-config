@@ -8,6 +8,13 @@ pub fn disable<'a, 'b>(lua: &'a Lua, s: &'b str) -> LuaResult<LuaTable<'a>> {
     })
 }
 
+pub fn fun(lua: &Lua, chunk: String) -> LuaResult<LuaFunction> {
+    Ok(lua.create_function(move |lua, _: ()| {
+        lua.load(&chunk).exec()?;
+        Ok(())
+    })?)
+}
+
 pub fn default(lua: &Lua) -> LuaResult<LuaTable> {
     let opts = tbl! { lua;
         "spec", list! { lua;
@@ -59,7 +66,17 @@ pub fn default(lua: &Lua) -> LuaResult<LuaTable> {
                         "enable", true,
                         "view", "cmdline",
                     },
+                    "messages", tbl! { lua;
+                        "enable", true,
+                        "view", "mini",
+                        "view_error", "mini",
+                        "view_warn", "mini",
+                    },
                     "lsp", tbl! { lua;
+                        "progress", tbl! { lua;
+                            "enable", false,
+                            "view", "mini",
+                        },
                         "signature", tbl! { lua;
                             "auto_open", tbl! { lua;
                                 "enabled", false,
@@ -70,26 +87,36 @@ pub fn default(lua: &Lua) -> LuaResult<LuaTable> {
             },
             tbl! { lua;
                 1, "goolord/alpha-nvim",
-                "config", lua.create_function(|lua, _: ()| {
-                    let config = lua.globals()
-                        .get::<_, LuaFunction>("require")?
-                        .call::<_, LuaTable>("alpha.themes.startify")?
-                        .get::<_, LuaTable>("config")?;
-                    config
-                        .get::<_, LuaTable>("layout")?
-                        .get::<_, LuaTable>(2)?
-                        .set("val", "しゃがみガード")?;
-                    lua.globals()
-                        .get::<_, LuaFunction>("require")?
-                        .call::<_, LuaTable>("alpha")?
-                        .get::<_, LuaFunction>("setup")?
-                        .call::<_, LuaTable>(config)?;
-
-                    Ok(())
-                })?,
+                "config", fun(lua, r#"
+                    local config = require("alpha.themes.startify").config
+                    config.layout[2].val = "しゃがみガード"
+                    require("alpha").setup(config)
+                "#.to_string())?,
             },
             tbl! { lua;
                 1, "nvim-neo-tree/neo-tree.nvim",
+                "keys", list! { lua;
+                    list! {lua; "<leader>e", false, },
+                    list! {lua; "<leader>E", false, },
+                    list! {lua; "<leader>fe", false, },
+                    list! {lua; "<leader>fE", false, },
+                    list! {lua;
+                        "<leader>ew", fun(lua, r#"
+                            require("neo-tree.command").execute({
+                                toggle = true,
+                                dir = require("lazyvim.util").get_root(),
+                            })
+                        "#.to_string())?,
+                    },
+                    list! {lua;
+                        "<leader>ee", fun(lua, r#"
+                            require("neo-tree.command").execute({
+                                toggle = true,
+                                dir = vim.loop.cwd(),
+                            })
+                        "#.to_string())?,
+                    },
+                },
                 "opts", tbl! { lua;
                     "window", tbl! { lua;
                         "position", "right",
@@ -115,6 +142,12 @@ pub fn default(lua: &Lua) -> LuaResult<LuaTable> {
             },
             tbl! { lua;
                 1, "neovim/nvim-lspconfig",
+                "init", fun(lua, r#"
+                    local keymaps = require("lazyvim.plugins.lsp.keymaps")
+                    local keys = keymaps.get()
+                    keys[#keys + 1] = { "[g", keymaps.diagnostic_goto(false) }
+                    keys[#keys + 1] = { "]g", keymaps.diagnostic_goto(true) }
+                "#.to_string())?,
                 "opts", tbl! { lua;
                     "autoformat", false,
                     "servers", tbl! { lua;
@@ -135,6 +168,16 @@ pub fn default(lua: &Lua) -> LuaResult<LuaTable> {
                 "opts", tbl! { lua;
                     "hooks", tbl! { lua;
                         "pre", lua.create_function(|_, _: ()| {Ok(())})?,
+                    },
+                },
+            },
+            tbl! { lua;
+                1, "echasnovski/mini.surround",
+                "opts", tbl! { lua;
+                    "mappings", tbl! { lua;
+                        "add", "S",
+                        "delete", "ds",
+                        "replace", "cs",
                     },
                 },
             },
