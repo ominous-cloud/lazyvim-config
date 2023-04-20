@@ -1,27 +1,38 @@
-use common::{list, tbl};
 use mlua::prelude::*;
 
-pub fn disable<'a, 'b>(lua: &'a Lua, s: &'b str) -> LuaResult<LuaTable<'a>> {
-    Ok(tbl! { lua;
+pub fn disable<'a>(lua: &'a Lua, s: &str) -> LuaResult<LuaTable<'a>> {
+    Ok(common::tbl! { lua;
         1, s,
         "enabled", false,
     })
 }
 
 pub fn fun(lua: &Lua, chunk: String) -> LuaResult<LuaFunction> {
-    Ok(lua.create_function(move |lua, _: ()| {
+    lua.create_function(move |lua, _: ()| {
         lua.load(&chunk).exec()?;
         Ok(())
-    })?)
+    })
 }
 
-pub fn default(lua: &Lua) -> LuaResult<LuaTable> {
-    let opts = tbl! { lua;
-        "spec", list! { lua;
-            tbl! { lua;
+pub fn default(lua: &'static Lua) -> LuaResult<LuaTable> {
+    macro_rules! tbl {
+        ( $( $k:expr, $v:expr, )* ) => {
+            common::tbl![lua; $($k, $v, )*]
+        }
+    }
+
+    macro_rules! list {
+        ( $( $v:expr, )* ) => {
+            common::list![lua; $($v, )*]
+        }
+    }
+
+    let opts = tbl! {
+        "spec", list! {
+            tbl! {
                 1, "LazyVim/LazyVim",
                 "import", "lazyvim.plugins",
-                "opts", tbl! { lua;
+                "opts", tbl! {
                     "colorscheme", "tokyonight",
                 },
             },
@@ -40,52 +51,52 @@ pub fn default(lua: &Lua) -> LuaResult<LuaTable> {
             // disable(lua, "lukas-reineke/indent-blankline.nvim")?,
             // disable(lua, "echasnovski/mini.indentscope")?,
             disable(lua, "echasnovski/mini.ai")?,
-            tbl! { lua;
+            tbl! {
                 1, "folke/tokyonight.nvim",
-                "opts", tbl! { lua;
+                "opts", tbl! {
                     "transparent", true,
-                    "styles", tbl! { lua;
+                    "styles", tbl! {
                         "sidebars", "transparent",
                         "floats", "transparent",
                     },
                 },
             },
-            tbl! { lua;
+            tbl! {
                 1, "rcarriga/nvim-notify",
-                "opts", tbl! { lua;
+                "opts", tbl! {
                     "background_colour", "#000000",
                 },
             },
-            tbl! { lua;
+            tbl! {
                 1, "folke/noice.nvim",
-                "opts", tbl! { lua;
-                    "presets", tbl! { lua;
+                "opts", tbl! {
+                    "presets", tbl! {
                         "command_palette", false,
                     },
-                    "cmdline", tbl! { lua;
+                    "cmdline", tbl! {
                         "enable", true,
                         "view", "cmdline",
                     },
-                    "messages", tbl! { lua;
+                    "messages", tbl! {
                         "enable", true,
                         "view", "mini",
                         "view_error", "mini",
                         "view_warn", "mini",
                     },
-                    "lsp", tbl! { lua;
-                        "progress", tbl! { lua;
+                    "lsp", tbl! {
+                        "progress", tbl! {
                             "enable", false,
                             "view", "mini",
                         },
-                        "signature", tbl! { lua;
-                            "auto_open", tbl! { lua;
+                        "signature", tbl! {
+                            "auto_open", tbl! {
                                 "enabled", false,
                             },
                         },
                     },
                 },
             },
-            tbl! { lua;
+            tbl! {
                 1, "goolord/alpha-nvim",
                 "config", fun(lua, r#"
                     local config = require("alpha.themes.startify").config
@@ -93,14 +104,14 @@ pub fn default(lua: &Lua) -> LuaResult<LuaTable> {
                     require("alpha").setup(config)
                 "#.to_string())?,
             },
-            tbl! { lua;
+            tbl! {
                 1, "nvim-neo-tree/neo-tree.nvim",
-                "keys", list! { lua;
-                    list! {lua; "<leader>e", false, },
-                    list! {lua; "<leader>E", false, },
-                    list! {lua; "<leader>fe", false, },
-                    list! {lua; "<leader>fE", false, },
-                    list! {lua;
+                "keys", list! {
+                    list! { "<leader>e", false, },
+                    list! { "<leader>E", false, },
+                    list! { "<leader>fe", false, },
+                    list! { "<leader>fE", false, },
+                    list! {
                         "<leader>ew", fun(lua, r#"
                             require("neo-tree.command").execute({
                                 toggle = true,
@@ -108,7 +119,7 @@ pub fn default(lua: &Lua) -> LuaResult<LuaTable> {
                             })
                         "#.to_string())?,
                     },
-                    list! {lua;
+                    list! {
                         "<leader>ee", fun(lua, r#"
                             require("neo-tree.command").execute({
                                 toggle = true,
@@ -117,17 +128,17 @@ pub fn default(lua: &Lua) -> LuaResult<LuaTable> {
                         "#.to_string())?,
                     },
                 },
-                "opts", tbl! { lua;
-                    "window", tbl! { lua;
+                "opts", tbl! {
+                    "window", tbl! {
                         "position", "right",
                         "width", 30,
                     },
                 },
             },
-            tbl! { lua;
+            tbl! {
                 1, "williamboman/mason.nvim",
-                "opts", lua.create_function(|lua, (_, opts): (LuaTable, LuaTable)| {
-                    let value = tbl!(lua;);
+                "opts", lua.create_function(|_, (_, opts): (LuaTable, LuaTable)| {
+                    let value = tbl!();
                     opts.set("ensure_installed", value)?;
                     Ok(())
                 })?,
@@ -140,7 +151,7 @@ pub fn default(lua: &Lua) -> LuaResult<LuaTable> {
                     Ok(())
                 })?,
             },
-            tbl! { lua;
+            tbl! {
                 1, "neovim/nvim-lspconfig",
                 "init", fun(lua, r#"
                     local keymaps = require("lazyvim.plugins.lsp.keymaps")
@@ -148,33 +159,33 @@ pub fn default(lua: &Lua) -> LuaResult<LuaTable> {
                     keys[#keys + 1] = { "[g", keymaps.diagnostic_goto(false) }
                     keys[#keys + 1] = { "]g", keymaps.diagnostic_goto(true) }
                 "#.to_string())?,
-                "opts", tbl! { lua;
+                "opts", tbl! {
                     "autoformat", false,
-                    "servers", tbl! { lua;
-                        "jsonls", tbl! { lua;
+                    "servers", tbl! {
+                        "jsonls", tbl! {
                             "mason", false,
                         },
-                        "lua_ls", tbl! { lua;
+                        "lua_ls", tbl! {
                             "mason", false,
                         },
-                        "rust_analyzer", tbl! { lua;
+                        "rust_analyzer", tbl! {
                             "mason", false,
                         },
                     },
                 },
             },
-            tbl! { lua;
+            tbl! {
                 1, "echasnovski/mini.comment",
-                "opts", tbl! { lua;
-                    "hooks", tbl! { lua;
+                "opts", tbl! {
+                    "hooks", tbl! {
                         "pre", lua.create_function(|_, _: ()| {Ok(())})?,
                     },
                 },
             },
-            tbl! { lua;
+            tbl! {
                 1, "echasnovski/mini.surround",
-                "opts", tbl! { lua;
-                    "mappings", tbl! { lua;
+                "opts", tbl! {
+                    "mappings", tbl! {
                         "add", "S",
                         "delete", "ds",
                         "replace", "cs",

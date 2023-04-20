@@ -4,13 +4,13 @@ use mlua::prelude::*;
 use std::process::Command;
 
 #[mlua::lua_module]
-pub fn init(lua: &Lua) -> LuaResult<LuaValue> {
+pub fn init(lua: &'static Lua) -> LuaResult<LuaValue> {
     let url = common::api::stdpaths_user_data_subpath("lazy/lazy.nvim").expect("unable to get std data path");
     let path = std::path::Path::new(&url);
 
     if !path.is_dir() {
         Command::new("git")
-            .args(&[
+            .args([
                 "clone",
                 "--filter=blob:none",
                 "https://github.com/folke/lazy.nvim.git",
