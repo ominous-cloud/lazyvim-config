@@ -1,10 +1,6 @@
-use std::{
-    ffi::{CStr, CString},
-    process::Command,
-};
-
+use std::ffi::{CStr, CString};
+use std::process::Command;
 use nvim_oxi as oxi;
-
 use crate::{ffi, nvim};
 
 pub fn setup() -> oxi::Result<()> {
@@ -30,7 +26,7 @@ pub fn setup() -> oxi::Result<()> {
         oxi::print!("lazy.nvim cloned!");
     }
 
-    nvim::prepend("rtp", path)?;
+    nvim::prepend("runtimepath", path)?;
 
     Ok(())
 }

@@ -12,7 +12,5 @@ use nvim_oxi as oxi;
 pub fn init() -> oxi::Result<()> {
     lazy::setup()?;
     plugins::setup()?;
-    options::setup()?;
-    keymaps::setup()?;
     Ok(())
 }

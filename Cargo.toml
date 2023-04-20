@@ -1,13 +1,6 @@
-[package]
-name = "nvim-config"
-version = "0.1.0"
-edition = "2021"
-publish = false
-
-[lib]
-name = "init"
-crate-type = ["cdylib"]
-
-[dependencies]
-mlua = { version = "0.8.8", features = ["luajit"] }
-nvim-oxi = { version = "0.2.2", features = ["neovim-nightly", "mlua"] }
+[workspace]
+members = [
+  "crates/common",
+  "crates/init",
+  "crates/options",
+]
