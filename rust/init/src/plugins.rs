@@ -17,13 +17,13 @@ pub fn fun(lua: &Lua, chunk: String) -> LuaResult<LuaFunction> {
 pub fn default(lua: &'static Lua) -> LuaResult<LuaTable> {
     macro_rules! tbl {
         ( $( $k:expr, $v:expr, )* ) => {
-            common::tbl![lua; $($k, $v, )*]
+            common::tbl![lua; $($k, $v,)*]
         }
     }
 
     macro_rules! list {
         ( $( $v:expr, )* ) => {
-            common::list![lua; $($v, )*]
+            common::list![lua; $($v,)*]
         }
     }
 
@@ -35,6 +35,9 @@ pub fn default(lua: &'static Lua) -> LuaResult<LuaTable> {
                 "opts", tbl! {
                     "colorscheme", "tokyonight",
                 },
+            },
+            tbl! {
+                "import", "lazyvim.plugins.extras.dap.core",
             },
             // override default config
             disable(lua, "folke/neodev.nvim")?,
@@ -160,6 +163,9 @@ pub fn default(lua: &'static Lua) -> LuaResult<LuaTable> {
                     keys[#keys + 1] = { "]g", keymaps.diagnostic_goto(true) }
                 "#.to_string())?,
                 "opts", tbl! {
+                    "diagnostics", tbl! {
+                        "virtual_text", false,
+                    },
                     "autoformat", false,
                     "servers", tbl! {
                         "jsonls", tbl! {
@@ -171,6 +177,85 @@ pub fn default(lua: &'static Lua) -> LuaResult<LuaTable> {
                         "rust_analyzer", tbl! {
                             "mason", false,
                         },
+                    },
+                },
+            },
+            tbl! {
+                1, "mfussenegger/nvim-dap",
+                "config", fun(lua, r#"
+                    print("hello rust")
+                    local Config = require("lazyvim.config")
+                    vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })
+
+                    for name, sign in pairs(Config.icons.dap) do
+                        sign = type(sign) == "table" and sign or { sign }
+                        vim.fn.sign_define("Dap" .. name, {
+                            text = sign[1],
+                            texthl = sign[2] or "DiagnosticInfo",
+                            linehl = sign[3],
+                            numhl = sign[3],
+                        })
+                    end
+
+                    local dap = require("dap")
+                    local utils = require("dap.utils")
+                    dap.adapters.codelldb = {
+                        type = "server",
+                        port = "${port}",
+                        executable = {
+                            command = "codelldb",
+                            args = { "--port", "${port}" },
+                            -- detached = false,
+                        }
+                    }
+                    local codelldb_launch_config = {
+                        name = "codelldb: Launch",
+                        type = "codelldb",
+                        request = "launch",
+                        program = function()
+                            return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+                        end,
+                        cwd = function()
+                            return vim.fn.input("Working Directory > ", vim.fn.getcwd() .. "/", "file")
+                        end,
+                        stopOnEntry = false,
+                        runInTerminal = false,
+                    }
+                    local codelldb_attach_config = {
+                        name = "codelldb: Attach to process",
+                        type = "codelldb",
+                        request = "attach",
+                        pid = utils.pick_process,
+                        args = {},
+                    }
+                    local codelldb_configs = {
+                        codelldb_launch_config,
+                        codelldb_attach_config,
+                    }
+                    dap.configurations.cpp = codelldb_configs
+                    dap.configurations.rust = codelldb_configs
+                "#.to_string())?,
+            },
+            tbl! {
+                1, "rcarriga/nvim-dap-ui",
+                "opts", tbl! {
+                    "expand_lines", false,
+                    "layouts", tbl! {
+                        1, tbl! {
+                            "elements", list! {
+                                tbl! { "id", "breakpoints", "size", 0.2, },
+                                tbl! { "id", "stacks", "size", 0.2, },
+                                tbl! { "id", "watches", "size", 0.2, },
+                                tbl! { "id", "scopes", "size", 0.4, },
+                            },
+                            "size", 50,
+                            "position", "right",
+                        },
+                    },
+                    "icons", tbl! {
+                        "expanded", "",
+                        "collapsed", "",
+                        "current_frame", "",
                     },
                 },
             },
