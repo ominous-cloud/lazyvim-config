@@ -1,6 +1,7 @@
 [workspace]
 members = [
-  "crates/common",
-  "crates/init",
-  "crates/options",
+  "rust/common",
+  "rust/init",
+  "rust/options",
+  "rust/keymaps",
 ]

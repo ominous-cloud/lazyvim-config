@@ -1,5 +1,5 @@
 [package]
-name = "keymaps"
+name = "init"
 version = "0.1.0"
 edition = "2021"
 publish = false
@@ -9,4 +9,4 @@ crate-type = ["cdylib"]
 
 [dependencies]
 common = { path = "../common" }
-nvim-oxi = { version = "0.2.2", features = ["neovim-nightly"] }
+mlua = { version = "0.8.8", features = ["luajit", "module", "mlua_derive"] }

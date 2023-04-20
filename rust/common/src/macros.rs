@@ -1,8 +1,8 @@
+#[macro_export]
 macro_rules! tbl {
-    ( $( $k:expr, $v:expr, )* ) => {
+    ( $lua:ident; $( $k:expr, $v:expr, )* ) => {
         {
-            let lua = nvim_oxi::mlua::lua();
-            let table = lua.create_table()?;
+            let table = $lua.create_table()?;
             $(
                 table.set($k, $v)?;
             )*
@@ -11,11 +11,11 @@ macro_rules! tbl {
     };
 }
 
+#[macro_export]
 macro_rules! list {
-    ( $( $v:expr, )* ) => {
+    ( $lua:ident; $( $v:expr, )* ) => {
         {
-            let lua = nvim_oxi::mlua::lua();
-            let table = lua.create_table()?;
+            let table = $lua.create_table()?;
             let i = 0;
             $(
                 let i = i + 1;
@@ -25,6 +25,3 @@ macro_rules! list {
         }
     };
 }
-
-pub(crate) use list;
-pub(crate) use tbl;
