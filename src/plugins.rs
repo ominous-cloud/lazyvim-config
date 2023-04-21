@@ -38,15 +38,29 @@ pub fn default(lua: &'static Lua) -> LuaResult<LuaTable> {
                 "import", "lazyvim.plugins",
                 "opts", tbl! {
                     "colorscheme", lua.create_function(|lua, _: ()| {
+                        let style = "dark";
+                        let colors = lua.globals()
+                            .get::<_, LuaFunction>("require")?
+                            .call::<_, LuaTable>("decay.core")?
+                            .get::<_, LuaFunction>("get_colors")?
+                            .call::<_, LuaTable>(style)?;
+                        let fg = colors.get::<_, LuaString>("foreground")?;
+                        let bg = colors.get::<_, LuaString>("background")?;
+                        let accent = colors.get::<_, LuaString>("accent")?;
+
                         let opts = tbl! {
-                            "style", "dark",
+                            "style", style,
                             "palette_overrides", tbl! {
                                 "background", "NONE",
                             },
                             "override", tbl! {
                                 "Normal", tbl! {
-                                    "fg", "#beb6ca",
+                                    "fg", fg,
                                     "bg", "NONE",
+                                },
+                                "TelescopeSelection", tbl! {
+                                    "fg", bg,
+                                    "bg", accent,
                                 },
                             },
                         };
@@ -164,16 +178,24 @@ pub fn default(lua: &'static Lua) -> LuaResult<LuaTable> {
                     "window", tbl! {
                         "position", "right",
                         "width", 30,
+                        "mappings", tbl! {
+                            "h", "toggle_node",
+                            "l", "open",
+                            "e", "open_vsplit",
+                            "s", "open_split",
+                        },
+                    },
+                    "filesystem", tbl! {
+                        // create file using "../newfile"
+                        "group_empty_dirs", true,
                     },
                 },
             },
             tbl! {
                 1, "williamboman/mason.nvim",
-                "opts", lua.create_function(|_, (_, opts): (LuaTable, LuaTable)| {
-                    let value = tbl!();
-                    opts.set("ensure_installed", value)?;
-                    Ok(())
-                })?,
+                "opts", tbl! {
+                    "ensure_installed", list!(),
+                },
                 "config", lua.create_function(|lua, (_, opts): (LuaTable, LuaTable)| {
                     lua.globals()
                         .get::<_, LuaFunction>("require")?
@@ -191,18 +213,11 @@ pub fn default(lua: &'static Lua) -> LuaResult<LuaTable> {
                     keys[#keys + 1] = { "[g", keymaps.diagnostic_goto(false) }
                     keys[#keys + 1] = { "]g", keymaps.diagnostic_goto(true) }
                 "#.to_string())?,
-                "opts", tbl! {
-                    "diagnostics", tbl! {
-                        "virtual_text", false,
-                    },
-                    "autoformat", false,
-                    "servers", tbl! {
-                        "jsonls", tbl! {
-                            "mason", false,
-                        },
-                        "lua_ls", tbl! {
-                            "mason", false,
-                        },
+                "opts", lua.create_function(|lua, (_, opts): (LuaTable, LuaTable)| {
+                    opts.get::<_, LuaTable>("diagnostics")?
+                        .set("virtual_text", false)?;
+                    opts.set("autoformat", false)?;
+                    opts.set("servers", tbl! {
                         "rust_analyzer", tbl! {
                             "mason", false,
                         },
@@ -222,8 +237,8 @@ pub fn default(lua: &'static Lua) -> LuaResult<LuaTable> {
                                 "typescript", "typescriptreact", "vue",
                             },
                         },
-                    },
-                    "setup", tbl! {
+                    })?;
+                    opts.set("setup", tbl! {
                         "volar", lua.create_function(|lua, (_, opts): (LuaString, LuaTable)| {
                             let root_dir = lua.globals()
                                 .get::<_, LuaFunction>("require")?
@@ -240,8 +255,9 @@ pub fn default(lua: &'static Lua) -> LuaResult<LuaTable> {
                             Ok(())
                         })?,
                         "*", noop(lua)?,
-                    },
-                },
+                    })?;
+                    Ok(())
+                })?,
             },
             tbl! {
                 1, "mfussenegger/nvim-dap",
