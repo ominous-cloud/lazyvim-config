@@ -5,7 +5,8 @@ use std::process::Command;
 
 #[mlua::lua_module]
 pub fn init(lua: &'static Lua) -> LuaResult<LuaValue> {
-    let url = common::api::stdpaths_user_data_subpath("lazy/lazy.nvim").expect("unable to get std data path");
+    let url = common::api::stdpaths_user_data_subpath("lazy/lazy.nvim")
+        .expect("unable to get std data path");
     let path = std::path::Path::new(&url);
 
     if !path.is_dir() {
@@ -22,6 +23,7 @@ pub fn init(lua: &'static Lua) -> LuaResult<LuaValue> {
     }
 
     common::api::prepend("runtimepath", url).expect("unable to modify runtime path");
+
 
     lua.globals()
         .get::<_, LuaFunction>("require")?

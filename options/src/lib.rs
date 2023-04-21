@@ -20,5 +20,8 @@ fn config_options(_: &Lua) -> LuaResult<LuaValue> {
     opt!("autowrite", false);
     opt!("confirm", false);
 
+    opt!("shiftwidth", 4);
+    opt!("tabstop", 8);
+
     Ok(LuaNil)
 }

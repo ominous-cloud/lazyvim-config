@@ -1,5 +1,7 @@
 use mlua::prelude::*;
 
+use common::clue::{fun, noop};
+
 pub fn disable<'a>(lua: &'a Lua, s: &str) -> LuaResult<LuaTable<'a>> {
     Ok(common::tbl! { lua;
         1, s,
@@ -7,17 +9,13 @@ pub fn disable<'a>(lua: &'a Lua, s: &str) -> LuaResult<LuaTable<'a>> {
     })
 }
 
-pub fn fun(lua: &Lua, chunk: String) -> LuaResult<LuaFunction> {
-    lua.create_function(move |lua, _: ()| {
-        lua.load(&chunk).exec()?;
-        Ok(())
-    })
-}
-
-pub fn noop(lua: &Lua) -> LuaResult<LuaFunction> {
-    lua.create_function(|_, _: ()| {
-        Ok(())
-    })
+pub fn stdpaths_cache() -> String {
+    let cache_home = std::env::var("XDG_CACHE_HOME");
+    if let Ok(cache_home) = cache_home {
+        cache_home
+    } else {
+        format!("{}/{}", env!("HOME"), ".cache")
+    }
 }
 
 pub fn default(lua: &'static Lua) -> LuaResult<LuaTable> {
@@ -79,6 +77,7 @@ pub fn default(lua: &'static Lua) -> LuaResult<LuaTable> {
             // disable(lua, "lukas-reineke/indent-blankline.nvim")?,
             // disable(lua, "echasnovski/mini.indentscope")?,
             disable(lua, "echasnovski/mini.ai")?,
+            disable(lua, "folke/which-key.nvim")?,
             disable(lua, "folke/tokyonight.nvim")?,
             // tbl! {
             //     1, "folke/tokyonight.nvim",
@@ -207,13 +206,46 @@ pub fn default(lua: &'static Lua) -> LuaResult<LuaTable> {
                         "rust_analyzer", tbl! {
                             "mason", false,
                         },
+                        "jdtls", tbl! {
+                            "mason", false,
+                            "cmd", list! {
+                                "jdt-language-server",
+                                "-configuration",
+                                format!("{}/{}", stdpaths_cache(), "jdtls/config"),
+                                "-data",
+                                format!("{}/{}", stdpaths_cache(), "jdtls/workspace"),
+                            },
+                        },
+                        "volar", tbl! {
+                            "mason", false,
+                            "filetypes", list! {
+                                "typescript", "typescriptreact", "vue",
+                            },
+                        },
+                    },
+                    "setup", tbl! {
+                        "volar", lua.create_function(|lua, (_, opts): (LuaString, LuaTable)| {
+                            let root_dir = lua.globals()
+                                .get::<_, LuaFunction>("require")?
+                                .call::<_, LuaTable>("lspconfig")?
+                                .get::<_, LuaTable>("util")?
+                                .get::<_, LuaFunction>("root_pattern")?
+                                .call::<_, LuaFunction>((
+                                    "package.json",
+                                    "package.yaml",
+                                    "node_modules",
+                                    ".git",
+                                ))?;
+                            opts.set("root_dir", root_dir)?;
+                            Ok(())
+                        })?,
+                        "*", noop(lua)?,
                     },
                 },
             },
             tbl! {
                 1, "mfussenegger/nvim-dap",
                 "config", fun(lua, r#"
-                    print("hello rust")
                     local Config = require("lazyvim.config")
                     vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })
 

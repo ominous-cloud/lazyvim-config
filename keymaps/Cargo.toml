@@ -1,5 +1,5 @@
 [package]
-name = "init"
+name = "keymaps"
 version = "0.1.0"
 edition = "2021"
 publish = false
@@ -9,4 +9,4 @@ crate-type = ["cdylib"]
 
 [dependencies]
 common = { path = "../common" }
-mlua = { version = "0.8.8", features = ["luajit", "module", "mlua_derive"] }
+mlua = { version = "0.8.8", features = ["luajit", "module", "mlua_derive", "vendored"] }

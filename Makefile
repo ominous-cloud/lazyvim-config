@@ -1,6 +1,6 @@
 all:
 	mkdir -p lua/config
-	cargo build --release
+	cargo build --workspace --release
 	cp target/release/libinit.so lua/init.so
 	cp target/release/liboptions.so lua/config/options.so
 	cp target/release/libkeymaps.so lua/config/keymaps.so

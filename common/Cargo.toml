@@ -6,4 +6,4 @@ publish = false
 
 [dependencies]
 libc = "0.2.141"
-mlua = { version = "0.8.8", features = ["luajit"] }
+mlua = { version = "0.8.8", features = ["luajit", "vendored"] }

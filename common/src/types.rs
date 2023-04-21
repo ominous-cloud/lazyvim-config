@@ -98,6 +98,15 @@ impl From<bool> for Object {
     }
 }
 
+impl From<i64> for Object {
+    fn from(value: i64) -> Self {
+        Self {
+            ty: ObjectKind::Integer,
+            data: ObjectData { integer: value },
+        }
+    }
+}
+
 impl Drop for Object {
     fn drop(&mut self) {
         match self.ty {
