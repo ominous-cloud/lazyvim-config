@@ -18,6 +18,99 @@ pub fn stdpaths_cache() -> String {
     }
 }
 
+pub fn setup_colorscheme(lua: &'static Lua) -> LuaResult<LuaFunction> {
+    macro_rules! tbl {
+        ( $( $k:expr, $v:expr, )* ) => {
+            common::tbl![lua; $($k, $v,)*]
+        }
+    }
+
+    lua.create_function(|lua, _: ()| {
+        let style = "dark";
+        let colors = lua
+            .globals()
+            .get::<_, LuaFunction>("require")?
+            .call::<_, LuaTable>("decay.core")?
+            .get::<_, LuaFunction>("get_colors")?
+            .call::<_, LuaTable>(style)?;
+        let fg = colors.get::<_, LuaString>("foreground")?;
+        let bg = colors.get::<_, LuaString>("background")?;
+        let accent = colors.get::<_, LuaString>("accent")?;
+
+        let opts = tbl! {
+            "style", style,
+            "palette_overrides", tbl! {
+                "background", "NONE",
+            },
+            "override", tbl! {
+                "Normal", tbl! {
+                    "fg", fg,
+                    "bg", "NONE",
+                },
+                "TelescopeSelection", tbl! {
+                    "fg", bg,
+                    "bg", accent,
+                },
+                "@lsp.type.comment", tbl! {
+                    "link", "@comment",
+                },
+                "@lsp.type.enum", tbl! {
+                    "link", "@type",
+                },
+                "@lsp.type.enumMember", tbl! {
+                    "link", "@constant",
+                },
+                "@lsp.type.interface", tbl! {
+                    "link", "type",
+                },
+                "@lsp.type.keyword", tbl! {
+                    "link", "@keyword",
+                },
+                "@lsp.type.namespace", tbl! {
+                    "link", "@namespace",
+                },
+                "@lsp.type.parameter", tbl! {
+                    "link", "@parameter",
+                },
+                "@lsp.type.property", tbl! {
+                    "link", "@property",
+                },
+                "@lsp.type.variable", tbl!(),
+                "@lsp.typemod.function.defaultLibrary", tbl! {
+                    "link", "@function.builtin",
+                },
+                "@lsp.typemod.macro.defaultLibrary", tbl! {
+                    "link", "@function.builtin",
+                },
+                "@lsp.typemod.method.defaultLibrary", tbl! {
+                    "link", "@function.builtin",
+                },
+                "@lsp.typemod.operator.injected", tbl! {
+                    "link", "@operator",
+                },
+                "@lsp.typemod.string.injected", tbl! {
+                    "link", "@string",
+                },
+                "@lsp.typemod.type.defaultLibrary", tbl! {
+                    "link", "@type",
+                },
+                "@lsp.typemod.variable.defaultLibrary", tbl! {
+                    "link", "@variable.builtin",
+                },
+                "@lsp.typemod.variable.injected", tbl! {
+                    "link", "@variable",
+                },
+            },
+        };
+        lua.globals()
+            .get::<_, LuaFunction>("require")?
+            .call::<_, LuaTable>("decay")?
+            .get::<_, LuaFunction>("setup")?
+            .call::<_, LuaTable>(opts)?;
+        Ok(())
+    })
+}
+
 pub fn default(lua: &'static Lua) -> LuaResult<LuaTable> {
     macro_rules! tbl {
         ( $( $k:expr, $v:expr, )* ) => {
@@ -37,40 +130,7 @@ pub fn default(lua: &'static Lua) -> LuaResult<LuaTable> {
                 1, "LazyVim/LazyVim",
                 "import", "lazyvim.plugins",
                 "opts", tbl! {
-                    "colorscheme", lua.create_function(|lua, _: ()| {
-                        let style = "dark";
-                        let colors = lua.globals()
-                            .get::<_, LuaFunction>("require")?
-                            .call::<_, LuaTable>("decay.core")?
-                            .get::<_, LuaFunction>("get_colors")?
-                            .call::<_, LuaTable>(style)?;
-                        let fg = colors.get::<_, LuaString>("foreground")?;
-                        let bg = colors.get::<_, LuaString>("background")?;
-                        let accent = colors.get::<_, LuaString>("accent")?;
-
-                        let opts = tbl! {
-                            "style", style,
-                            "palette_overrides", tbl! {
-                                "background", "NONE",
-                            },
-                            "override", tbl! {
-                                "Normal", tbl! {
-                                    "fg", fg,
-                                    "bg", "NONE",
-                                },
-                                "TelescopeSelection", tbl! {
-                                    "fg", bg,
-                                    "bg", accent,
-                                },
-                            },
-                        };
-                        lua.globals()
-                            .get::<_, LuaFunction>("require")?
-                            .call::<_, LuaTable>("decay")?
-                            .get::<_, LuaFunction>("setup")?
-                            .call::<_, LuaTable>(opts)?;
-                        Ok(())
-                    })?,
+                    "colorscheme", setup_colorscheme(lua)?,
                 },
             },
             tbl! {
@@ -80,19 +140,21 @@ pub fn default(lua: &'static Lua) -> LuaResult<LuaTable> {
             disable(lua, "folke/neodev.nvim")?,
             disable(lua, "ggandor/leap.nvim")?,
             disable(lua, "ggandor/flit.nvim")?,
-            disable(lua, "nvim-treesitter/nvim-treesitter")?,
-            disable(lua, "nvim-treesitter/nvim-treesitter-textobjects")?,
+            // disable(lua, "nvim-treesitter/nvim-treesitter")?,
+            // disable(lua, "nvim-treesitter/nvim-treesitter-textobjects")?,
             disable(lua, "folke/todo-comments.nvim")?,
             disable(lua, "echasnovski/mini.pairs")?,
             disable(lua, "echasnovski/mini.bufremove")?,
             //  disable(lua, "lewis6991/gitsigns.nvim")?,
             disable(lua, "akinsho/bufferline.nvim")?,
             disable(lua, "nvim-lualine/lualine.nvim")?,
+            disable(lua, "SmiteshP/nvim-navic")?,
             // disable(lua, "lukas-reineke/indent-blankline.nvim")?,
             // disable(lua, "echasnovski/mini.indentscope")?,
             disable(lua, "echasnovski/mini.ai")?,
             disable(lua, "folke/which-key.nvim")?,
             disable(lua, "folke/tokyonight.nvim")?,
+            disable(lua, "catppuccin/nvim")?,
             // tbl! {
             //     1, "folke/tokyonight.nvim",
             //     "opts", tbl! {
@@ -364,10 +426,18 @@ pub fn default(lua: &'static Lua) -> LuaResult<LuaTable> {
                 },
             },
             tbl! {
-                1, "echasnovski/mini.comment",
+                1, "nvim-treesitter/nvim-treesitter",
                 "opts", tbl! {
-                    "hooks", tbl! {
-                        "pre", noop(lua)?,
+                    "ensure_installed", list! {
+                        "bash",
+                        "c", "c_sharp", "cmake", "comment", "cpp", "css",
+                        "dart", "diff", "dockerfile", "dot",
+                        "git_rebase", "gitcommit", "gitignore",
+                        "haskell", "html", "java", "javascript", "json", "jsonc",
+                        "kotlin", "latex", "lua",
+                        "make", "markdown", "markdown_inline",
+                        "nix", "python", "qmljs", "query", "rust", "scss", "sql",
+                        "tsx", "typescript", "vue", "yaml",
                     },
                 },
             },
