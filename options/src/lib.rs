@@ -23,6 +23,7 @@ fn config_options(_: &Lua) -> LuaResult<LuaValue> {
 
     opt!("autowrite", false);
     opt!("confirm", false);
+    opt!("clipboard", "unnamed");
 
     Ok(LuaNil)
 }
