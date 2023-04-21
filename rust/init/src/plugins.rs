@@ -14,6 +14,12 @@ pub fn fun(lua: &Lua, chunk: String) -> LuaResult<LuaFunction> {
     })
 }
 
+pub fn noop(lua: &Lua) -> LuaResult<LuaFunction> {
+    lua.create_function(|_, _: ()| {
+        Ok(())
+    })
+}
+
 pub fn default(lua: &'static Lua) -> LuaResult<LuaTable> {
     macro_rules! tbl {
         ( $( $k:expr, $v:expr, )* ) => {
@@ -33,7 +39,26 @@ pub fn default(lua: &'static Lua) -> LuaResult<LuaTable> {
                 1, "LazyVim/LazyVim",
                 "import", "lazyvim.plugins",
                 "opts", tbl! {
-                    "colorscheme", "tokyonight",
+                    "colorscheme", lua.create_function(|lua, _: ()| {
+                        let opts = tbl! {
+                            "style", "dark",
+                            "palette_overrides", tbl! {
+                                "background", "NONE",
+                            },
+                            "override", tbl! {
+                                "Normal", tbl! {
+                                    "fg", "#beb6ca",
+                                    "bg", "NONE",
+                                },
+                            },
+                        };
+                        lua.globals()
+                            .get::<_, LuaFunction>("require")?
+                            .call::<_, LuaTable>("decay")?
+                            .get::<_, LuaFunction>("setup")?
+                            .call::<_, LuaTable>(opts)?;
+                        Ok(())
+                    })?,
                 },
             },
             tbl! {
@@ -54,15 +79,20 @@ pub fn default(lua: &'static Lua) -> LuaResult<LuaTable> {
             // disable(lua, "lukas-reineke/indent-blankline.nvim")?,
             // disable(lua, "echasnovski/mini.indentscope")?,
             disable(lua, "echasnovski/mini.ai")?,
+            disable(lua, "folke/tokyonight.nvim")?,
+            // tbl! {
+            //     1, "folke/tokyonight.nvim",
+            //     "opts", tbl! {
+            //         "transparent", true,
+            //         "styles", tbl! {
+            //             "sidebars", "transparent",
+            //             "floats", "transparent",
+            //         },
+            //     },
+            // },
             tbl! {
-                1, "folke/tokyonight.nvim",
-                "opts", tbl! {
-                    "transparent", true,
-                    "styles", tbl! {
-                        "sidebars", "transparent",
-                        "floats", "transparent",
-                    },
-                },
+                1, "decaycs/decay.nvim",
+                "config", noop(lua)?,
             },
             tbl! {
                 1, "rcarriga/nvim-notify",
@@ -289,7 +319,7 @@ pub fn default(lua: &'static Lua) -> LuaResult<LuaTable> {
                 1, "echasnovski/mini.comment",
                 "opts", tbl! {
                     "hooks", tbl! {
-                        "pre", lua.create_function(|_, _: ()| {Ok(())})?,
+                        "pre", noop(lua)?,
                     },
                 },
             },
