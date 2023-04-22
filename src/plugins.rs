@@ -18,99 +18,6 @@ pub fn stdpaths_cache() -> String {
     }
 }
 
-pub fn setup_colorscheme(lua: &'static Lua) -> LuaResult<LuaFunction> {
-    macro_rules! tbl {
-        ( $( $k:expr, $v:expr, )* ) => {
-            common::tbl![lua; $($k, $v,)*]
-        }
-    }
-
-    lua.create_function(|lua, _: ()| {
-        let style = "dark";
-        let colors = lua
-            .globals()
-            .get::<_, LuaFunction>("require")?
-            .call::<_, LuaTable>("decay.core")?
-            .get::<_, LuaFunction>("get_colors")?
-            .call::<_, LuaTable>(style)?;
-        let fg = colors.get::<_, LuaString>("foreground")?;
-        let bg = colors.get::<_, LuaString>("background")?;
-        let accent = colors.get::<_, LuaString>("accent")?;
-
-        let opts = tbl! {
-            "style", style,
-            "palette_overrides", tbl! {
-                "background", "NONE",
-            },
-            "override", tbl! {
-                "Normal", tbl! {
-                    "fg", fg,
-                    "bg", "NONE",
-                },
-                "TelescopeSelection", tbl! {
-                    "fg", bg,
-                    "bg", accent,
-                },
-                "@lsp.type.comment", tbl! {
-                    "link", "@comment",
-                },
-                "@lsp.type.enum", tbl! {
-                    "link", "@type",
-                },
-                "@lsp.type.enumMember", tbl! {
-                    "link", "@constant",
-                },
-                "@lsp.type.interface", tbl! {
-                    "link", "type",
-                },
-                "@lsp.type.keyword", tbl! {
-                    "link", "@keyword",
-                },
-                "@lsp.type.namespace", tbl! {
-                    "link", "@namespace",
-                },
-                "@lsp.type.parameter", tbl! {
-                    "link", "@parameter",
-                },
-                "@lsp.type.property", tbl! {
-                    "link", "@property",
-                },
-                "@lsp.type.variable", tbl!(),
-                "@lsp.typemod.function.defaultLibrary", tbl! {
-                    "link", "@function.builtin",
-                },
-                "@lsp.typemod.macro.defaultLibrary", tbl! {
-                    "link", "@function.builtin",
-                },
-                "@lsp.typemod.method.defaultLibrary", tbl! {
-                    "link", "@function.builtin",
-                },
-                "@lsp.typemod.operator.injected", tbl! {
-                    "link", "@operator",
-                },
-                "@lsp.typemod.string.injected", tbl! {
-                    "link", "@string",
-                },
-                "@lsp.typemod.type.defaultLibrary", tbl! {
-                    "link", "@type",
-                },
-                "@lsp.typemod.variable.defaultLibrary", tbl! {
-                    "link", "@variable.builtin",
-                },
-                "@lsp.typemod.variable.injected", tbl! {
-                    "link", "@variable",
-                },
-            },
-        };
-        lua.globals()
-            .get::<_, LuaFunction>("require")?
-            .call::<_, LuaTable>("decay")?
-            .get::<_, LuaFunction>("setup")?
-            .call::<_, LuaTable>(opts)?;
-        Ok(())
-    })
-}
-
 pub fn default(lua: &'static Lua) -> LuaResult<LuaTable> {
     macro_rules! tbl {
         ( $( $k:expr, $v:expr, )* ) => {
@@ -130,7 +37,7 @@ pub fn default(lua: &'static Lua) -> LuaResult<LuaTable> {
                 1, "LazyVim/LazyVim",
                 "import", "lazyvim.plugins",
                 "opts", tbl! {
-                    "colorscheme", setup_colorscheme(lua)?,
+                    "colorscheme", "tokyonight",
                 },
             },
             tbl! {
@@ -153,21 +60,16 @@ pub fn default(lua: &'static Lua) -> LuaResult<LuaTable> {
             // disable(lua, "echasnovski/mini.indentscope")?,
             disable(lua, "echasnovski/mini.ai")?,
             disable(lua, "folke/which-key.nvim")?,
-            disable(lua, "folke/tokyonight.nvim")?,
             disable(lua, "catppuccin/nvim")?,
-            // tbl! {
-            //     1, "folke/tokyonight.nvim",
-            //     "opts", tbl! {
-            //         "transparent", true,
-            //         "styles", tbl! {
-            //             "sidebars", "transparent",
-            //             "floats", "transparent",
-            //         },
-            //     },
-            // },
             tbl! {
-                1, "decaycs/decay.nvim",
-                "config", noop(lua)?,
+                1, "folke/tokyonight.nvim",
+                "opts", tbl! {
+                    "transparent", true,
+                    "styles", tbl! {
+                        "sidebars", "transparent",
+                        "floats", "transparent",
+                    },
+                },
             },
             tbl! {
                 1, "rcarriga/nvim-notify",
