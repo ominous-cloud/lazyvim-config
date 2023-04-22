@@ -344,6 +344,61 @@ pub fn default(lua: &'static Lua) -> LuaResult<LuaTable> {
                 },
             },
             tbl! {
+                1, "kevinhwang91/nvim-ufo",
+                "dependencies", "kevinhwang91/promise-async",
+                "keys", list! {
+                    "za",
+                    list! {
+                        "zR", lua.create_function(|lua, _: ()| {
+                            lua.globals()
+                                .get::<_, LuaFunction>("require")?
+                                .call::<_, LuaTable>("ufo")?
+                                .get::<_, LuaFunction>("openAllFolds")?
+                                .call::<_, ()>(())?;
+                            Ok(())
+                        })?,
+                    },
+                    list! {
+                        "zM", lua.create_function(|lua, _: ()| {
+                            lua.globals()
+                                .get::<_, LuaFunction>("require")?
+                                .call::<_, LuaTable>("ufo")?
+                                .get::<_, LuaFunction>("closeAllFolds")?
+                                .call::<_, ()>(())?;
+                            Ok(())
+                        })?,
+                    },
+                    list! {
+                        "zr", lua.create_function(|lua, _: ()| {
+                            lua.globals()
+                                .get::<_, LuaFunction>("require")?
+                                .call::<_, LuaTable>("ufo")?
+                                .get::<_, LuaFunction>("openFoldsExceptKinds")?
+                                .call::<_, ()>(())?;
+                            Ok(())
+                        })?,
+                    },
+                    list! {
+                        "zm", lua.create_function(|lua, _: ()| {
+                            lua.globals()
+                                .get::<_, LuaFunction>("require")?
+                                .call::<_, LuaTable>("ufo")?
+                                .get::<_, LuaFunction>("closeFoldsWith")?
+                                .call::<_, ()>(())?;
+                            Ok(())
+                        })?,
+                    },
+                },
+                "config", lua.create_function(|lua, (_, opts): (LuaTable, LuaTable)| {
+                    lua.globals()
+                        .get::<_, LuaFunction>("require")?
+                        .call::<_, LuaTable>("ufo")?
+                        .get::<_, LuaFunction>("setup")?
+                        .call::<_, LuaTable>(opts)?;
+                    Ok(())
+                })?,
+            },
+            tbl! {
                 1, "echasnovski/mini.surround",
                 "opts", tbl! {
                     "mappings", tbl! {
