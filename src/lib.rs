@@ -29,7 +29,7 @@ pub fn init(lua: &'static Lua) -> LuaResult<LuaValue> {
         .get::<_, LuaFunction>("require")?
         .call::<_, LuaTable>("lazy")?
         .get::<_, LuaFunction>("setup")?
-        .call::<_, ()>(plugins::default(lua)?)?;
+        .call::<_, ()>("plugins")?;
 
     Ok(LuaNil)
 }

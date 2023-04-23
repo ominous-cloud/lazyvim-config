@@ -8,22 +8,5 @@ macro_rules! opt {
 
 #[mlua::lua_module]
 fn config_options(_: &Lua) -> LuaResult<LuaValue> {
-    opt!("number", false);
-    opt!("relativenumber", false);
-    opt!("signcolumn", "yes");
-    opt!("cursorline", false);
-    opt!("ruler", false);
-    opt!("wrap", true);
-
-    opt!("ignorecase", false);
-    opt!("completeopt", "menu,preview");
-
-    opt!("shiftwidth", 4);
-    opt!("tabstop", 8);
-
-    opt!("autowrite", false);
-    opt!("confirm", false);
-    opt!("clipboard", "unnamed");
-
     Ok(LuaNil)
 }

@@ -27,10 +27,11 @@
       in {
         devShell = pkgs.mkShell {
           buildInputs = with pkgs; [
-            rust-toolchain
-            luajit
             pkg-config
             gnumake
+            rust-toolchain
+            luajit
+            sumneko-lua-language-server
           ];
         };
       }
