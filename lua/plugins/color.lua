@@ -89,7 +89,7 @@ local function colorful()
     }
 end
 
-local function bw()
+local function monochrome()
     local style = "dark";
     local colors = require "decay.core".get_colors(style)
     local fg = colors.foreground
