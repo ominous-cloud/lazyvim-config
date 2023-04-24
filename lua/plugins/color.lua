@@ -1,37 +1,130 @@
+local function colorful()
+    local style = "dark"
+    local colors = require "decay.core".get_colors(style)
+    local fg = colors.foreground
+    local bg = colors.background
+    local dark = colors.black
+
+    local palette_overrides = {
+        dark0_hard = dark,
+        dark0 = dark,
+        dark0_soft = dark,
+        dark1 = dark,
+        dark2 = dark,
+        dark3 = dark,
+        dark4 = dark,
+        light0_hard = fg,
+        light0 = fg,
+        light0_soft = fg,
+        light1 = fg,
+        light2 = fg,
+        light3 = fg,
+        light4 = fg,
+        bright_red = fg,
+        bright_green = fg,
+        bright_yellow = fg,
+        bright_blue = fg,
+        bright_purple = fg,
+        bright_aqua = fg,
+        bright_orange = fg,
+        neutral_red = fg,
+        neutral_green = fg,
+        neutral_yellow = fg,
+        neutral_blue = fg,
+        neutral_purple = fg,
+        neutral_aqua = fg,
+        neutral_orange = fg,
+        faded_red = fg,
+        faded_green = fg,
+        faded_yellow = fg,
+        faded_blue = fg,
+        faded_purple = fg,
+        faded_aqua = fg,
+        faded_orange = fg,
+        gray = fg,
+    }
+
+    local highlight_overrides = {
+        NeoTreeGitConflict = {
+            fg = fg,
+        },
+        NeoTreeModified = {
+            fg = fg,
+        },
+        NoiceLspProgressTitle = {
+            fg = fg,
+        },
+    }
+
+    require "gruvbox".setup({
+        undercurl = true,
+        underline = true,
+        bold = false,
+        italic = {
+            strings = true,
+            comments = true,
+            operators = false,
+            folds = true,
+        },
+        strikethrough = true,
+        invert_selection = true,
+        invert_signs = false,
+        invert_tabline = false,
+        invert_intend_guides = false,
+        inverse = true,
+        contrast = "",
+        dim_inactive = false,
+        transparent_mode = true,
+        palette_overrides = palette_overrides,
+        overrides = highlight_overrides,
+    })
+    vim.cmd.colorscheme "gruvbox"
+
+    for _, group in ipairs(vim.fn.getcompletion("@lsp", "highlight")) do
+        vim.api.nvim_set_hl(0, group, {})
+    end
+
+    require "nvim-web-devicons".setup {
+        color_icons = false,
+    }
+end
+
+local function bw()
+    local style = "dark";
+    local colors = require "decay.core".get_colors(style)
+    local fg = colors.foreground
+    local bg = colors.background
+    local accent = colors.accent
+    local none = "NONE"
+
+    require "decay".setup {
+        style = style,
+        palette_overrides = {
+            background = none,
+        },
+        override = {
+            Normal = {
+                fg = fg,
+                bg = none,
+            },
+            TelescopeSelection = {
+                fg = bg,
+                bg = accent,
+            },
+        },
+    }
+
+    for _, group in ipairs(vim.fn.getcompletion("@lsp", "highlight")) do
+        vim.api.nvim_set_hl(0, group, {})
+    end
+end
+
 return {
     { "catppuccin/nvim", name = "catppuccin", enabled = false },
     {
         "LazyVim/LazyVim",
         opts = {
-            colorscheme = function()
-                local style = "dark";
-                local colors = require "decay.core".get_colors(style)
-                local fg = colors.foreground
-                local bg = colors.background
-                local accent = colors.accent
-                local none = "NONE"
-
-                require "decay".setup {
-                    style = style,
-                    palette_overrides = {
-                        background = none,
-                    },
-                    override = {
-                        Normal = {
-                            fg = fg,
-                            bg = none,
-                        },
-                        TelescopeSelection = {
-                            fg = bg,
-                            bg = accent,
-                        },
-                    },
-                }
-
-                for _, group in ipairs(vim.fn.getcompletion("@lsp", "highlight")) do
-                  vim.api.nvim_set_hl(0, group, {})
-                end
-            end,
+            colorscheme = colorful,
         },
     },
     {
@@ -49,4 +142,9 @@ return {
         config = function()
         end,
     },
+    {
+        "ellisonleao/gruvbox.nvim",
+        config = function()
+        end,
+    }
 }

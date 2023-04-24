@@ -41,6 +41,11 @@ return {
         opts = {
             diagnostics = {
                 virtual_text = false,
+                signs = {
+                    severity = {
+                        min = vim.diagnostic.severity.WARN
+                    }
+                },
             },
             autoformat = false,
             servers = {

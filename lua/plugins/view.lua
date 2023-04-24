@@ -34,6 +34,20 @@ return {
                 progress = {
                     enable = false,
                     view = "mini",
+                    format = {
+                        {
+                            "{spinner} ",
+                            hl_group = "NoiceLspProgressSpinner",
+                        },
+                        {
+                            "{data.progress.title} ",
+                            hl_group = "NoiceLspProgressTitle",
+                        },
+                        {
+                            "{data.progress.client} ",
+                            hl_group = "NoiceLspProgressClient",
+                        },
+                    },
                 },
                 signature = {
                     auto_open = {
@@ -47,7 +61,10 @@ return {
         "goolord/alpha-nvim",
         config = function()
             local config = require "alpha.themes.startify".config
-            config.layout[2].val = "しゃがみガード"
+            config.layout[2] = {
+                type = "text",
+                val = "しゃがみガード",
+            }
             require "alpha".setup(config)
         end,
     },
