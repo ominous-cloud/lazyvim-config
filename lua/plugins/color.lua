@@ -61,7 +61,7 @@ local function colorful()
         underline = true,
         bold = false,
         italic = {
-            strings = true,
+            strings = false,
             comments = true,
             operators = false,
             folds = true,
