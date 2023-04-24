@@ -1,12 +1,42 @@
 return {
-    { "folke/neodev.nvim", enabled = false },
+    -- { "folke/neodev.nvim", enabled = false },
     {
         "neovim/nvim-lspconfig",
         init = function()
             local keymaps = require "lazyvim.plugins.lsp.keymaps"
             local keys = keymaps.get()
-            keys[#keys + 1] = { "[g", keymaps.diagnostic_goto(false) }
-            keys[#keys + 1] = { "]g", keymaps.diagnostic_goto(true) }
+            local format_slow = function()
+                local buf = vim.api.nvim_get_current_buf()
+                local ft = vim.bo[buf].filetype
+                local sources = require "null-ls.sources"
+                local have_nls = #sources.get_available(ft, "NULL_LS_FORMATTING") > 0
+                local opts = vim.tbl_deep_extend("force", {
+                    timeout_ms = 2000,
+                    bufnr = buf,
+                    filter = function(client)
+                        if have_nls then
+                            return client.name == "null-ls"
+                        end
+                        return client.name ~= "null-ls"
+                    end,
+                }, require "lazyvim.util".opts("nvim-lspconfig").format or {})
+                vim.lsp.buf.format(opts)
+            end
+            keys[#keys + 1] = {
+                "[g", keymaps.diagnostic_goto(false),
+            }
+            keys[#keys + 1] = {
+                "]g", keymaps.diagnostic_goto(true),
+            }
+            keys[#keys + 1] = {
+                "<leader>cF", format_slow,
+                has = "documentFormatting",
+            }
+            keys[#keys + 1] = {
+                "<leader>cF", format_slow,
+                mode = "v",
+                has = "documentRangeFormatting",
+            }
         end,
         opts = {
             diagnostics = {
@@ -55,5 +85,17 @@ return {
                 end,
             },
         },
+    },
+    {
+        "jose-elias-alvarez/null-ls.nvim",
+        opts = function()
+            local null_ls = require "null-ls";
+            return {
+                sources = {
+                    null_ls.builtins.formatting.stylua,
+                    null_ls.builtins.formatting.eslint_d,
+                },
+            }
+        end,
     },
 }

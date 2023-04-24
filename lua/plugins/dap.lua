@@ -32,10 +32,18 @@ return {
                 type = "codelldb",
                 request = "launch",
                 program = function()
-                    return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+                    return vim.fn.input({
+                        prompt = "Path to executable: ",
+                        default = vim.fn.getcwd() .. "/",
+                        completion = "file",
+                    })
                 end,
                 cwd = function()
-                    return vim.fn.input("Working Directory > ", vim.fn.getcwd() .. "/", "file")
+                    return vim.fn.input({
+                        prompt = "Working Directory > ",
+                        default = vim.fn.getcwd() .. "/",
+                        completion = "file",
+                    })
                 end,
                 stopOnEntry = false,
                 runInTerminal = false,
