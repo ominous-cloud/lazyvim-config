@@ -48,11 +48,17 @@ local function colorful()
         NeoTreeGitConflict = {
             fg = fg,
         },
+        NeoTreeGitUntracked = {
+            fg = fg,
+        },
         NeoTreeModified = {
             fg = fg,
         },
         NoiceLspProgressTitle = {
             fg = fg,
+        },
+        LspCodeLens = {
+            italic = true,
         },
     }
 
