@@ -45,6 +45,9 @@ local function colorful()
     }
 
     local highlight_overrides = {
+        LspCodeLens = {
+            italic = true,
+        },
         NeoTreeGitConflict = {
             fg = fg,
         },
@@ -57,7 +60,16 @@ local function colorful()
         NoiceLspProgressTitle = {
             fg = fg,
         },
-        LspCodeLens = {
+        NvimWindoSwitch = {
+            bg = fg,
+            fg = dark,
+            bold = false,
+            italic = true,
+        },
+        NvimWindoSwitchNC = {
+            bg = fg,
+            fg = dark,
+            bold = false,
             italic = true,
         },
     }

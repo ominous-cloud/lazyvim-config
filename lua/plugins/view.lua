@@ -31,8 +31,8 @@ return {
                 view_warn = "mini",
             },
             notify = {
-              enabled = true,
-              view = "mini",
+                enabled = true,
+                view = "mini",
             },
             lsp = {
                 progress = {
@@ -74,37 +74,75 @@ return {
     },
     {
         "nvim-neo-tree/neo-tree.nvim",
+        dependencies = {
+            's1n7ax/nvim-window-picker',
+            keys = {
+                {
+                    "<leader>wp",
+                    function()
+                        local picked_window_id = require "window-picker".pick_window()
+                            or vim.api.nvim_get_current_win()
+                        vim.api.nvim_set_current_win(picked_window_id)
+                    end,
+                    desc = "Pick a window",
+                },
+            },
+            config = function()
+                require "window-picker.config".include_current_win = true
+                require "window-picker".setup_completed = true
+            end,
+        },
         keys = {
             { "<leader>e",  false, },
             { "<leader>E",  false, },
             { "<leader>fe", false, },
             { "<leader>fE", false, },
             {
-                "<leader>ew", function()
-                require "neo-tree.command".execute({
-                    toggle = true,
-                    dir = require "lazyvim.util".get_root(),
-                })
-            end,
+                "<leader>ew",
+                function()
+                    require "neo-tree.command".execute({
+                        toggle = true,
+                        source = "filesystem",
+                        dir = require "lazyvim.util".get_root(),
+                    })
+                end,
             },
             {
-                "<leader>ee", function()
-                require "neo-tree.command".execute({
-                    toggle = true,
-                    dir = vim.loop.cwd(),
-                })
-            end,
+                "<leader>eW",
+                function()
+                    require "neo-tree.command".execute({
+                        toggle = true,
+                        source = "filesystem",
+                        dir = vim.loop.cwd(),
+                    })
+                end,
+            },
+            {
+                "<leader>ee",
+                function()
+                    require "neo-tree.command".execute({
+                        toggle = true,
+                        source = "buffers",
+                    })
+                end,
             },
         },
         opts = {
+            source_selector = {
+                sources = {
+                    { source = "filesystem", display_name = "  Files " },
+                    { source = "buffers",    display_name = "  Buffers " },
+                    -- { source = "git_status", display_name = "  Git " },
+                },
+            },
             window = {
                 position = "right",
                 width = 30,
                 mappings = {
                     h = "toggle_node",
-                    l = "open",
-                    e = "open_vsplit",
-                    s = "open_split",
+                    l = "open_with_window_picker",
+                    e = "vsplit_with_window_picker",
+                    E = "split_with_window_picker",
                 },
             },
             filesystem = {
