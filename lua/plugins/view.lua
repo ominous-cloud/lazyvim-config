@@ -1,13 +1,14 @@
 return {
-    { "echasnovski/mini.bufremove", enabled = false },
+    { "echasnovski/mini.bufremove",   enabled = false },
     --  { "lewis6991/gitsigns.nvim", enabled = false },
-    { "akinsho/bufferline.nvim",    enabled = false },
-    { "nvim-lualine/lualine.nvim",  enabled = false },
-    { "SmiteshP/nvim-navic",        enabled = false },
+    { "akinsho/bufferline.nvim",      enabled = false },
+    { "nvim-lualine/lualine.nvim",    enabled = false },
+    { "SmiteshP/nvim-navic",          enabled = false },
     -- { "lukas-reineke/indent-blankline.nvim", enabled = false },
-    -- { "echasnovski/mini.indentscope", enabled = false },
-    { "echasnovski/mini.ai",        enabled = false },
-    { "folke/which-key.nvim",       enabled = false },
+    { "echasnovski/mini.indentscope", enabled = false },
+    { "echasnovski/mini.ai",          enabled = false },
+    { "RRethy/vim-illuminate",        enabled = false },
+    { "folke/which-key.nvim",         enabled = false },
     {
         "rcarriga/nvim-notify",
         opts = {
@@ -29,6 +30,7 @@ return {
                 view = "mini",
                 view_error = "mini",
                 view_warn = "mini",
+                view_search = "mini",
             },
             notify = {
                 enabled = true,

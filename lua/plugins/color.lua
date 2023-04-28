@@ -45,9 +45,9 @@ local function colorful()
     }
 
     local highlight_overrides = {
-        LspCodeLens = {
-            italic = true,
-        },
+        -- LspCodeLens = {
+        --     italic = false,
+        -- },
         NeoTreeGitConflict = {
             fg = fg,
         },
@@ -64,13 +64,13 @@ local function colorful()
             bg = fg,
             fg = dark,
             bold = false,
-            italic = true,
+            italic = false,
         },
         NvimWindoSwitchNC = {
             bg = fg,
             fg = dark,
             bold = false,
-            italic = true,
+            italic = false,
         },
     }
 
@@ -80,9 +80,9 @@ local function colorful()
         bold = false,
         italic = {
             strings = false,
-            comments = true,
+            comments = false,
             operators = false,
-            folds = true,
+            folds = false,
         },
         strikethrough = true,
         invert_selection = false,

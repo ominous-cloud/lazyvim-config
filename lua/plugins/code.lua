@@ -6,9 +6,14 @@ return {
     { "folke/todo-comments.nvim", enabled = false },
     { "echasnovski/mini.pairs",   enabled = false },
     {
-        "williamboman/mason.nvim",
+        "hrsh7th/nvim-cmp",
         opts = {
-            ensure_installed = {},
+            experimental = {
+                ghost_text = false,
+                -- ghost_text = {
+                --     hl_group = "LspCodeLens",
+                -- },
+            },
         },
     },
     {
