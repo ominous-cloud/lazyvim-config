@@ -1,6 +1,6 @@
 return {
     { "echasnovski/mini.bufremove",   enabled = false },
-    --  { "lewis6991/gitsigns.nvim", enabled = false },
+    { "lewis6991/gitsigns.nvim", enabled = false },
     { "akinsho/bufferline.nvim",      enabled = false },
     { "nvim-lualine/lualine.nvim",    enabled = false },
     { "SmiteshP/nvim-navic",          enabled = false },
