@@ -4,7 +4,7 @@ return {
     { "akinsho/bufferline.nvim",      enabled = false },
     { "nvim-lualine/lualine.nvim",    enabled = false },
     { "SmiteshP/nvim-navic",          enabled = false },
-    -- { "lukas-reineke/indent-blankline.nvim", enabled = false },
+    { "lukas-reineke/indent-blankline.nvim", enabled = false },
     { "echasnovski/mini.indentscope", enabled = false },
     { "echasnovski/mini.ai",          enabled = false },
     { "RRethy/vim-illuminate",        enabled = false },
