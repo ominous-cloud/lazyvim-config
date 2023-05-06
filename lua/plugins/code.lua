@@ -17,6 +17,19 @@ return {
         },
     },
     {
+        "L3MON4D3/LuaSnip",
+        keys = {
+            { "<tab>", false, mode = "i" },
+            {
+                "<c-l>",
+                function() require "luasnip".jump(1) end,
+                expr = true,
+                silent = true,
+                mode = { "i", "s" },
+            },
+        },
+    },
+    {
         "nvim-treesitter/nvim-treesitter",
         opts = {
             ensure_installed = {
