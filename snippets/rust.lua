@@ -15,7 +15,7 @@ return {
             macro_rules! read_impl {
                 ( $f:ident, $($t:ident),+ ) => {
                     #[[allow(unused_parens)]]
-                    fn $f<$($t),+>(&mut self) -> Result<($($t),+), Box<dyn std::error::Error>>
+                    pub fn $f<$($t),+>(&mut self) -> Result<($($t),+), Box<dyn std::error::Error>>
                     where
                         $($t: std::str::FromStr,
                         <$t>::Err: std::error::Error + 'static,)+
@@ -28,13 +28,13 @@ return {
                 };
             }
 
-            struct IO<'a> {
+            pub struct IO<'a> {
                 scan: StdinLock<'a>,
                 out: BufWriter<StdoutLock<'a>>,
             }
 
             impl<'a> IO<'a> {
-                fn new() -> Self {
+                pub fn new() -> Self {
                     Self {
                         scan: std::io::stdin().lock(),
                         out: std::io::BufWriter::new(std::io::stdout().lock()),
@@ -45,7 +45,7 @@ return {
                 read_impl!(read2, T1, T2);
                 read_impl!(read3, T1, T2, T3);
 
-                fn read_vec<T, V>(&mut self) -> Result<V, Box<dyn Error>>
+                pub fn read_vec<T, V>(&mut self) -> Result<V, Box<dyn Error>>
                 where
                     T: FromStr,
                     <T>::Err: Error + 'static,
@@ -60,12 +60,12 @@ return {
                     Ok(v)
                 }
 
-                fn print<T: Display>(&mut self, value: T) -> Result<(), Box<dyn Error>> {
+                pub fn print<T: Display>(&mut self, value: T) -> Result<(), Box<dyn Error>> {
                     writeln!(self.out, "{}", value)?;
                     Ok(())
                 }
 
-                fn print_vec<T: Display>(
+                pub fn print_vec<T: Display>(
                     &mut self,
                     values: impl Iterator<Item = T>,
                 ) -> Result<(), Box<dyn Error>> {
