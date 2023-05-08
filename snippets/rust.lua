@@ -8,7 +8,7 @@ return {
             use std::{
                 error::Error,
                 fmt::Display,
-                io::{BufRead, BufWriter, StdinLock, StdoutLock, Write},
+                io::{BufRead, BufWriter, StdinLock, StdoutLock, Write, stdin, stdout},
                 str::FromStr,
             };
 
@@ -36,14 +36,20 @@ return {
             impl<'a> IO<'a> {
                 pub fn new() -> Self {
                     Self {
-                        scan: std::io::stdin().lock(),
-                        out: std::io::BufWriter::new(std::io::stdout().lock()),
+                        scan: stdin().lock(),
+                        out: BufWriter::new(stdout().lock()),
                     }
                 }
 
                 read_impl!(read, T1);
                 read_impl!(read2, T1, T2);
                 read_impl!(read3, T1, T2, T3);
+
+                pub fn read_line(&mut self) -> Result<String, Box<dyn Error>> {
+                    let mut s: String = String::new();
+                    self.scan.read_line(&mut s)?;
+                    Ok(s)
+                }
 
                 pub fn read_vec<T, V>(&mut self) -> Result<V, Box<dyn Error>>
                 where
