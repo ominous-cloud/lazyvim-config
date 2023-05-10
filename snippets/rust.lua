@@ -51,7 +51,7 @@ return {
                     Ok(s)
                 }
 
-                pub fn read_vec<T, V>(&mut self) -> Result<V, Box<dyn Error>>
+                pub fn read_vec<T, V>(&mut self, n: usize) -> Result<V, Box<dyn Error>>
                 where
                     T: FromStr,
                     <T>::Err: Error + 'static,
@@ -61,6 +61,7 @@ return {
                     self.scan.read_line(&mut s)?;
                     let v = s
                         .split_whitespace()
+                        .take(n)
                         .map(&str::parse)
                         .collect::<Result<V, _>>()?;
                     Ok(v)
