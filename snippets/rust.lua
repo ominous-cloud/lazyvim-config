@@ -74,10 +74,13 @@ return {
 
                 pub fn print_vec<T: Display>(
                     &mut self,
-                    values: impl Iterator<Item = T>,
+                    mut values: impl Iterator<Item = T>,
                 ) -> Result<(), Box<dyn Error>> {
-                    for v in values {
-                        write!(self.out, "{} ", v)?;
+                    if let Some(v) = values.next() {
+                        write!(self.out, "{}", v)?;
+                        for v in values {
+                            write!(self.out, " {}", v)?;
+                        }
                     }
                     writeln!(self.out)?;
                     Ok(())
