@@ -1,8 +1,10 @@
 -- local postfix = require('luasnip.extras.postfix').postfix
 
 return {
+    s("letm", { t({ "let mut " }) }),
+
     -- template
-    s('cpio', fmt([=[
+    s("cpio", fmt([=[
         #[[allow(dead_code)]]
         mod io {
             use std::{
