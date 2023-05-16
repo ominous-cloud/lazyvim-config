@@ -2,12 +2,15 @@ return {
     { "ggandor/leap.nvim",        enabled = false },
     { "ggandor/flit.nvim",        enabled = false },
     -- { "nvim-treesitter/nvim-treesitter", enabled = false },
-    -- { "nvim-treesitter/nvim-treesitter-textobjects", enabled = false },
+    { "nvim-treesitter/nvim-treesitter-textobjects", enabled = false },
     { "folke/todo-comments.nvim", enabled = false },
     { "echasnovski/mini.pairs",   enabled = false },
     {
         "hrsh7th/nvim-cmp",
         opts = {
+            completion = {
+                autocomplete = false,
+            },
             experimental = {
                 ghost_text = false,
                 -- ghost_text = {
