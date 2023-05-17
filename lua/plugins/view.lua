@@ -1,14 +1,14 @@
 return {
-    { "echasnovski/mini.bufremove",   enabled = false },
-    { "lewis6991/gitsigns.nvim", enabled = false },
-    { "akinsho/bufferline.nvim",      enabled = false },
-    { "nvim-lualine/lualine.nvim",    enabled = false },
-    { "SmiteshP/nvim-navic",          enabled = false },
+    { "echasnovski/mini.bufremove",          enabled = false },
+    { "lewis6991/gitsigns.nvim",             enabled = false },
+    { "akinsho/bufferline.nvim",             enabled = false },
+    { "nvim-lualine/lualine.nvim",           enabled = false },
+    { "SmiteshP/nvim-navic",                 enabled = false },
     { "lukas-reineke/indent-blankline.nvim", enabled = false },
-    { "echasnovski/mini.indentscope", enabled = false },
-    { "echasnovski/mini.ai",          enabled = false },
-    { "RRethy/vim-illuminate",        enabled = false },
-    { "folke/which-key.nvim",         enabled = false },
+    { "echasnovski/mini.indentscope",        enabled = false },
+    { "echasnovski/mini.ai",                 enabled = false },
+    { "RRethy/vim-illuminate",               enabled = false },
+    { "folke/which-key.nvim",                enabled = false },
     {
         "rcarriga/nvim-notify",
         opts = {
@@ -151,6 +151,21 @@ return {
                 -- create file using "../newfile"
                 group_empty_dirs = true,
             },
+        },
+    },
+    {
+        "stevearc/aerial.nvim",
+        keys = {
+            {
+                "<leader>er", "<cmd>AerialToggle!<cr>",
+            },
+        },
+        opts = {
+            backends = { "lsp", "treesitter", "markdown", "man" },
+        },
+        dependencies = {
+            "nvim-treesitter/nvim-treesitter",
+            "nvim-tree/nvim-web-devicons"
         },
     },
     {
