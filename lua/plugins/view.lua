@@ -9,60 +9,8 @@ return {
     { "echasnovski/mini.ai",                 enabled = false },
     { "RRethy/vim-illuminate",               enabled = false },
     { "folke/which-key.nvim",                enabled = false },
-    {
-        "rcarriga/nvim-notify",
-        opts = {
-            background_colour = "#000000",
-        },
-    },
-    {
-        "folke/noice.nvim",
-        opts = {
-            presets = {
-                command_palette = false,
-            },
-            cmdline = {
-                enable = true,
-                view = "cmdline",
-            },
-            messages = {
-                enable = true,
-                view = "mini",
-                view_error = "mini",
-                view_warn = "mini",
-                view_search = "mini",
-            },
-            notify = {
-                enabled = true,
-                view = "mini",
-            },
-            lsp = {
-                progress = {
-                    enable = false,
-                    view = "mini",
-                    format = {
-                        {
-                            "{spinner} ",
-                            hl_group = "NoiceLspProgressSpinner",
-                        },
-                        {
-                            "{data.progress.title} ",
-                            hl_group = "NoiceLspProgressTitle",
-                        },
-                        {
-                            "{data.progress.client} ",
-                            hl_group = "NoiceLspProgressClient",
-                        },
-                    },
-                },
-                signature = {
-                    auto_open = {
-                        enabled = false,
-                    },
-                },
-            },
-        },
-    },
+    { "rcarriga/nvim-notify",                enabled = false },
+    { "folke/noice.nvim",                    enabled = false },
     {
         "goolord/alpha-nvim",
         config = function()
