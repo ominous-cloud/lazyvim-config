@@ -14,6 +14,7 @@ vim.opt.guicursor = {
 
 vim.opt.ignorecase = false
 vim.opt.completeopt = "menu,preview"
+vim.opt.wildmode = "full"
 
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 8
