@@ -1,23 +1,39 @@
 return {
-    { "ggandor/leap.nvim",        enabled = false },
-    { "ggandor/flit.nvim",        enabled = false },
+    { "ggandor/leap.nvim",                           enabled = false },
+    { "ggandor/flit.nvim",                           enabled = false },
     -- { "nvim-treesitter/nvim-treesitter", enabled = false },
     { "nvim-treesitter/nvim-treesitter-textobjects", enabled = false },
-    { "folke/todo-comments.nvim", enabled = false },
-    { "echasnovski/mini.pairs",   enabled = false },
+    { "folke/todo-comments.nvim",                    enabled = false },
+    { "echasnovski/mini.pairs",                      enabled = false },
     {
         "hrsh7th/nvim-cmp",
-        opts = {
-            completion = {
-                autocomplete = false,
-            },
-            experimental = {
-                ghost_text = false,
-                -- ghost_text = {
-                --     hl_group = "LspCodeLens",
-                -- },
-            },
-        },
+        opts = function(_, opts)
+            local cmp = require "cmp"
+            opts.completion.autocomplete = false
+            opts.experimental.ghost_text = false
+            opts.mapping = cmp.mapping.preset.insert({
+                ["<c-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
+                ["<c-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
+                ["<c-b>"] = cmp.mapping.scroll_docs(-4),
+                ["<c-f>"] = cmp.mapping(function()
+                    if cmp.visible() then
+                        cmp.scroll_docs(4)
+                    else
+                        cmp.complete()
+                    end
+                end, { "i", "s" }),
+                ["<c-e>"] = cmp.mapping.abort(),
+                ["<cr>"] = cmp.mapping.confirm({ select = true }),
+                ["<s-cr>"] = cmp.mapping.confirm({
+                    behavior = cmp.ConfirmBehavior.Replace,
+                    select = true,
+                })
+            })
+            -- opts.mapping["<C-Space>"] = nil
+            opts.mapping = vim.tbl_extend("force", opts.mapping, {
+                ["<c-f>"] = cmp.mapping.complete(),
+            })
+        end,
     },
     {
         "L3MON4D3/LuaSnip",
