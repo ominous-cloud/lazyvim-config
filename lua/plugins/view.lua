@@ -119,27 +119,132 @@ return {
     {
         "nvim-telescope/telescope.nvim",
         keys = {
+            { "<leader>,",       false, },
+            { "<leader>:",       false, },
+            { "<leader>/",       false, },
             { "<leader><space>", false, },
+            { "<leader>fb",      false },
+            { "<leader>ff",      false },
+            { "<leader>fF",      false },
+            { "<leader>fr",      false },
+            { "<leader>fR",      false },
+            { "<leader>sd",      false },
+            { "<leader>sD",      false },
+            -- try <leader>sr to use spectre
             {
-                "<leader>fr", function()
-                require "lazyvim.util".telescope("live_grep")()
-            end,
+                "<leader>Fr",
+                function()
+                    require "lazyvim.util".telescope("live_grep")()
+                end,
+                decs = "telescope live_grep",
             },
             {
-                "<leader>fR", function()
-                require "lazyvim.util".telescope("live_grep", { cwd = false })()
-            end,
+                "<leader>FR",
+                function()
+                    require "lazyvim.util".telescope("live_grep", { cwd = false })()
+                end,
+                decs = "telescope live_grep",
             },
             {
-                "<leader>fe", function()
-                require "lazyvim.util".telescope("files")()
-            end,
+                "<leader>Fe",
+                function()
+                    require "lazyvim.util".telescope("files")()
+                end,
+                decs = "telescope files",
             },
             {
-                "<leader>fE", function()
-                require "lazyvim.util".telescope("files", { cwd = false })()
-            end,
+                "<leader>FE",
+                function() require "lazyvim.util".telescope("files", { cwd = false })() end,
+                decs = "telescope files",
+            },
+            {
+                "<leader>Sd",
+                "<cmd>Telescope diagnostics bufnr=0<cr>",
+                desc = "Document diagnostics",
+            },
+            {
+                "<leader>SD",
+                "<cmd>Telescope diagnostics<cr>",
+                desc = "Workspace diagnostics",
             },
         },
+        opts = {
+            defaults = {
+                path_display = { "smart" },
+            },
+        },
+    },
+    {
+        "ibhagwan/fzf-lua",
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+        opts = {
+            -- just use default keymaps like <c-v>
+            -- default layout is ok
+            winopts = {
+                -- split = "belowright vnew", -- if you like
+            },
+            fzf_opts = {
+                ["--keep-right"] = "",
+            },
+        },
+        keys = {
+            -- <f1> for help
+            {
+                "<leader>,",
+                function()
+                    require "fzf-lua".buffers()
+                end,
+                desc = "fzf buffers",
+            },
+            {
+                "<leader>/",
+                function()
+                    require "fzf-lua".live_grep()
+                end,
+                desc = "fzf grep",
+            },
+            {
+                "<leader>sf",
+                function()
+                    require "fzf-lua".builtin()
+                end,
+                desc = "fzf builtin",
+            },
+            {
+                "<leader>fr",
+                function()
+                    require "fzf-lua".live_grep()
+                end,
+                desc = "fzf grep",
+            },
+            {
+                "<leader>fe",
+                function()
+                    require "fzf-lua".files()
+                end,
+                desc = "fzf files",
+            },
+            {
+                "<leader>fb",
+                function()
+                    require "fzf-lua".buffers()
+                end,
+                desc = "fzf buffers",
+            },
+            {
+                "<leader>sd",
+                function()
+                    require "fzf-lua".diagnostics_document()
+                end,
+                desc = "fzf all diagnostics",
+            },
+            {
+                "<leader>sD",
+                function()
+                    require "fzf-lua".diagnostics_workspace()
+                end,
+                desc = "fzf diagnostics",
+            },
+        }
     },
 }
