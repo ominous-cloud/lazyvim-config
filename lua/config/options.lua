@@ -4,6 +4,7 @@ vim.opt.signcolumn = "yes"
 vim.opt.cursorline = false
 vim.opt.ruler = false
 vim.opt.wrap = true
+vim.opt.showmode = true
 
 -- for kitty's weird cursor color
 vim.opt.guicursor = {

@@ -48,6 +48,9 @@ local function colorful()
         -- LspCodeLens = {
         --     italic = false,
         -- },
+        NoiceLspProgressTitle = {
+            fg = fg,
+        },
         NeoTreeGitConflict = {
             fg = fg,
         },
@@ -55,9 +58,6 @@ local function colorful()
             fg = fg,
         },
         NeoTreeModified = {
-            fg = fg,
-        },
-        NoiceLspProgressTitle = {
             fg = fg,
         },
         NvimWindoSwitch = {
@@ -71,6 +71,16 @@ local function colorful()
             fg = dark,
             bold = false,
             italic = false,
+        },
+        StatusLine = {
+            bg = fg,
+            fg = bg,
+            italic = false,
+        },
+        StatusLineNC = {
+            bg = fg,
+            fg = bg,
+            italic = true,
         },
     }
 
