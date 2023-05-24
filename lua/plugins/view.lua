@@ -182,9 +182,39 @@ return {
             -- default layout is ok
             winopts = {
                 -- split = "belowright vnew", -- if you like
+                preview = {
+                    hidden = "hidden",
+                },
             },
             fzf_opts = {
                 ["--keep-right"] = "",
+            },
+            keymap = {
+                builtin = {
+                    ["<c-z>"]    = "toggle-preview",
+                    ["<f1>"]     = "toggle-help",
+                    ["<f2>"]     = "toggle-fullscreen",
+                    ["<f3>"]     = "toggle-preview-wrap",
+                    ["<f4>"]     = "toggle-preview",
+                    ["<f5>"]     = "toggle-preview-ccw",
+                    ["<f6>"]     = "toggle-preview-cw",
+                    ["<c-d>"]    = "preview-page-down",
+                    ["<c-u>"]    = "preview-page-up",
+                    ["<s-left>"] = "preview-page-reset",
+                },
+                fzf = {
+                    ["ctrl-z"] = "toggle-preview",
+                    ["ctrl-f"] = "half-page-down",
+                    ["ctrl-b"] = "half-page-up",
+                    ["ctrl-a"] = "beginning-of-line",
+                    ["ctrl-e"] = "end-of-line",
+                    ["alt-a"]  = "toggle-all",
+                    ["f3"]     = "toggle-preview-wrap",
+                    ["f4"]     = "toggle-preview",
+                    ["ctrl-d"] = "preview-page-down",
+                    ["ctrl-u"] = "preview-page-up",
+                    ["ctrl-q"] = "select-all+accept",
+                },
             },
         },
         keys = {
