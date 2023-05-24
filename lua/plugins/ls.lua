@@ -62,6 +62,9 @@ return {
                 jsonls = {
                     mason = false,
                 },
+                nil_ls = {
+                    mason = false,
+                },
                 rust_analyzer = {
                     mason = false,
                 },
