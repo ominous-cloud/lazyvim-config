@@ -136,26 +136,26 @@ return {
                 function()
                     require "lazyvim.util".telescope("live_grep")()
                 end,
-                decs = "telescope live_grep",
+                desc = "telescope live_grep",
             },
             {
                 "<leader>FR",
                 function()
                     require "lazyvim.util".telescope("live_grep", { cwd = false })()
                 end,
-                decs = "telescope live_grep",
+                desc = "telescope live_grep",
             },
             {
                 "<leader>Fe",
                 function()
                     require "lazyvim.util".telescope("files")()
                 end,
-                decs = "telescope files",
+                desc = "telescope files",
             },
             {
                 "<leader>FE",
                 function() require "lazyvim.util".telescope("files", { cwd = false })() end,
-                decs = "telescope files",
+                desc = "telescope files",
             },
             {
                 "<leader>Sd",
