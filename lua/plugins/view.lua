@@ -277,4 +277,57 @@ return {
             },
         }
     },
+    {
+        "kristijanhusak/vim-dadbod-ui",
+        dependencies = { "tpope/vim-dadbod" },
+        config = function()
+            vim.g.db_ui_show_help = false
+            vim.g.db_ui_winwidth = 30
+            vim.g.db_ui_win_position = "right"
+            vim.g.db_ui_force_echo_notifications = true
+            vim.g.db_ui_disable_mappings = true
+
+            -- default mappings
+            vim.api.nvim_create_augroup("DBUIFileType", { clear = true })
+            vim.api.nvim_create_autocmd("FileType", {
+                pattern = { "dbui" },
+                group = "DBUIFileType",
+                callback = function()
+                    local db_ui_map = vim.fn["db_ui#utils#set_mapping"]
+                    db_ui_map({ "o", "<cr>" }, "<Plug>(DBUI_SelectLine)")
+                    db_ui_map("S", "<Plug>(DBUI_SelectLineVsplit)")
+                    db_ui_map("R", "<Plug>(DBUI_Redraw)")
+                    db_ui_map("d", "<Plug>(DBUI_DeleteLine)")
+                    db_ui_map("A", "<Plug>(DBUI_AddConnection)")
+                    db_ui_map("H", "<Plug>(DBUI_ToggleDetails)")
+                    db_ui_map("r", "<Plug>(DBUI_RenameLine)")
+                    db_ui_map("q", "<Plug>(DBUI_Quit)")
+                    db_ui_map("<c-k>", "<Plug>(DBUI_GotoFirstSibling)")
+                    db_ui_map("<c-j>", "<Plug>(DBUI_GotoLastSibling)")
+                    db_ui_map("<C-p>", "<Plug>(DBUI_GotoParentNode)")
+                    db_ui_map("<C-n>", "<Plug>(DBUI_GotoChildNode)")
+                    db_ui_map("K", "<Plug>(DBUI_GotoPrevSibling)")
+                    db_ui_map("J", "<Plug>(DBUI_GotoNextSibling)")
+                end,
+            })
+
+            vim.api.nvim_create_augroup("SQLFileType", { clear = true })
+            vim.api.nvim_create_autocmd("FileType", {
+                pattern = { "sql", "plsql", "mysql" },
+                group = "SQLFileType",
+                callback = function()
+                    local db_ui_map = vim.fn["db_ui#utils#set_mapping"]
+                    -- db_ui_map("<leader>W", "<Plug>(DBUI_SaveQuery)")
+                    -- db_ui_map("<leader>E", "<Plug>(DBUI_EditBindParameters)")
+                    db_ui_map("<leader>cj", "<Plug>(DBUI_ExecuteQuery)")
+                    db_ui_map("<leader>cj", "<Plug>(DBUI_ExecuteQuery)", "v")
+                end,
+            })
+        end,
+        keys = {
+            {
+                "<leader>eb", "<cmd>DBUIToggle<cr>",
+            },
+        },
+    },
 }
