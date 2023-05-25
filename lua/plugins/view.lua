@@ -280,6 +280,7 @@ return {
     {
         "kristijanhusak/vim-dadbod-ui",
         dependencies = { "tpope/vim-dadbod" },
+        build = "sed -i 's/ cursorline//g' autoload/db_ui/query.vim",
         config = function()
             vim.g.db_ui_show_help = false
             vim.g.db_ui_winwidth = 30
