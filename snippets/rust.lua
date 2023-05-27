@@ -15,7 +15,7 @@ return {
         fn main() -> Unit {
             let mut io = io::IO::new();
             for _ in 0..io.read::<usize>()? {
-                solve(&mut io);
+                solve(&mut io)?;
             }
             Ok(())
         }
