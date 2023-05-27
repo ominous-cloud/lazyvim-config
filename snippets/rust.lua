@@ -5,6 +5,21 @@ return {
 
     -- template
     s("cpio", fmt([=[
+        type Unit = Result<(), Box<dyn std::error::Error>>;
+        
+        fn solve(io: &mut io::IO) -> Unit {
+            io.print(1)?;
+            Ok(())
+        }
+        
+        fn main() -> Unit {
+            let mut io = io::IO::new();
+            for _ in 0..io.read::<usize>()? {
+                solve(&mut io);
+            }
+            Ok(())
+        }
+
         #[[allow(dead_code)]]
         mod io {
             use std::{
