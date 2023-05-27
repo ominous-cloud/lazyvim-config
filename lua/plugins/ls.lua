@@ -22,20 +22,25 @@ return {
                 }, require "lazyvim.util".opts("nvim-lspconfig").format or {})
                 vim.lsp.buf.format(opts)
             end
-            keys[#keys + 1] = {
-                "[g", keymaps.diagnostic_goto(false),
-            }
-            keys[#keys + 1] = {
-                "]g", keymaps.diagnostic_goto(true),
-            }
-            keys[#keys + 1] = {
-                "<leader>cF", format_slow,
-                has = "documentFormatting",
-            }
-            keys[#keys + 1] = {
-                "<leader>cF", format_slow,
-                mode = "v",
-                has = "documentRangeFormatting",
+            local function add(maps)
+                for _, config in ipairs(maps) do
+                    keys[#keys + 1] = config
+                end
+            end
+            add {
+                { "[g", keymaps.diagnostic_goto(false) },
+                { "]g", keymaps.diagnostic_goto(true) },
+                {
+                    "<leader>cF",
+                    format_slow,
+                    has = "documentFormatting"
+                },
+                {
+                    "<leader>cF",
+                    format_slow,
+                    mode = "v",
+                    has = "documentRangeFormatting"
+                },
             }
         end,
         opts = {
@@ -81,6 +86,9 @@ return {
                 volar = {
                     mason = false,
                     filetypes = { "typescript", "typescriptreact", "vue" },
+                },
+                hls = {
+                    mason = false,
                 },
             },
             setup = {
