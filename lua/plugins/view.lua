@@ -7,10 +7,35 @@ return {
     { "lukas-reineke/indent-blankline.nvim", enabled = false },
     { "echasnovski/mini.indentscope",        enabled = false },
     { "echasnovski/mini.ai",                 enabled = false },
-    { "RRethy/vim-illuminate",               enabled = false },
     { "folke/which-key.nvim",                enabled = false },
     { "rcarriga/nvim-notify",                enabled = false },
     { "folke/noice.nvim",                    enabled = false },
+    {
+        "RRethy/vim-illuminate",
+        event = function() return {} end,
+        opts = { delay = 200 },
+        config = function(_, opts)
+            require "illuminate".configure(opts)
+            require "illuminate".toggle()
+        end,
+        keys = {
+            {
+                "[]",
+                function() require "illuminate".toggle() end,
+                desc = "Toggle Illuminate",
+            },
+            {
+                "[[",
+                function() require "illuminate".goto_prev_reference(false) end,
+                desc = "Prev Reference",
+            },
+            {
+                "]]",
+                function() require "illuminate".goto_next_reference(false) end,
+                desc = "Next Reference",
+            },
+        },
+    },
     {
         "goolord/alpha-nvim",
         config = function()
