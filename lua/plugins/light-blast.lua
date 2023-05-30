@@ -1,41 +1,11 @@
 return {
-    { "echasnovski/mini.bufremove",          enabled = false },
-    { "lewis6991/gitsigns.nvim",             enabled = false },
-    { "akinsho/bufferline.nvim",             enabled = false },
-    { "nvim-lualine/lualine.nvim",           enabled = false },
-    { "SmiteshP/nvim-navic",                 enabled = false },
-    { "lukas-reineke/indent-blankline.nvim", enabled = false },
-    { "echasnovski/mini.indentscope",        enabled = false },
-    { "echasnovski/mini.ai",                 enabled = false },
-    { "folke/which-key.nvim",                enabled = false },
-    { "rcarriga/nvim-notify",                enabled = false },
-    { "folke/noice.nvim",                    enabled = false },
-    {
-        "RRethy/vim-illuminate",
-        event = function() return {} end,
-        opts = { delay = 200 },
-        config = function(_, opts)
-            require "illuminate".configure(opts)
-            require "illuminate".toggle()
-        end,
-        keys = {
-            {
-                "[]",
-                function() require "illuminate".toggle() end,
-                desc = "Toggle Illuminate",
-            },
-            {
-                "[[",
-                function() require "illuminate".goto_prev_reference(false) end,
-                desc = "Prev Reference",
-            },
-            {
-                "]]",
-                function() require "illuminate".goto_next_reference(false) end,
-                desc = "Next Reference",
-            },
-        },
-    },
+    { "akinsho/bufferline.nvim",    enabled = false },
+    { "echasnovski/mini.bufremove", enabled = false },
+    { "nvim-lualine/lualine.nvim",  enabled = false },
+    { "SmiteshP/nvim-navic",        enabled = false },
+    { "folke/which-key.nvim",       enabled = false },
+    { "rcarriga/nvim-notify",       enabled = false },
+    { "folke/noice.nvim",           enabled = false },
     {
         "goolord/alpha-nvim",
         config = function()
@@ -355,5 +325,8 @@ return {
                 "<leader>eb", "<cmd>DBUIToggle<cr>",
             },
         },
+    },
+    {
+        "lstwn/broot.vim",
     },
 }

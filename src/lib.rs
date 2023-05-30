@@ -24,12 +24,11 @@ pub fn init(lua: &'static Lua) -> LuaResult<LuaValue> {
 
     common::api::prepend("runtimepath", url).expect("unable to modify runtime path");
 
-
     lua.globals()
         .get::<_, LuaFunction>("require")?
         .call::<_, LuaTable>("lazy")?
         .get::<_, LuaFunction>("setup")?
-        .call::<_, ()>("plugins")?;
+        .call::<_, ()>(plugins::default(lua)?)?;
 
     Ok(LuaNil)
 }

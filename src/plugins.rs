@@ -35,10 +35,11 @@ pub fn default(lua: &'static Lua) -> LuaResult<LuaTable> {
         "spec", list! {
             tbl! {
                 1, "LazyVim/LazyVim",
+                "priority", 1000,
                 "import", "lazyvim.plugins",
-                "opts", tbl! {
-                    "colorscheme", "tokyonight",
-                },
+            },
+            tbl! {
+                "import", "plugins",
             },
         },
     };

@@ -1,4 +1,8 @@
 return {
+    { "lewis6991/gitsigns.nvim",                     enabled = false },
+    { "lukas-reineke/indent-blankline.nvim",         enabled = false },
+    { "echasnovski/mini.indentscope",                enabled = false },
+    { "echasnovski/mini.ai",                         enabled = false },
     { "ggandor/leap.nvim",                           enabled = false },
     { "ggandor/flit.nvim",                           enabled = false },
     -- { "nvim-treesitter/nvim-treesitter", enabled = false },
@@ -9,8 +13,12 @@ return {
         "hrsh7th/nvim-cmp",
         opts = function(_, opts)
             local cmp = require "cmp"
-            opts.completion.autocomplete = false
-            opts.experimental.ghost_text = false
+            opts.completion = {
+                autocomplete = false,
+            }
+            opts.experimental = {
+                 ghost_text = false,
+            }
             opts.mapping = cmp.mapping.preset.insert({
                 ["<c-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
                 ["<c-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
@@ -93,6 +101,32 @@ return {
                 add = "S",
                 delete = "ds",
                 replace = "cs",
+            },
+        },
+    },
+    {
+        "RRethy/vim-illuminate",
+        event = function() return {} end,
+        opts = { delay = 200 },
+        config = function(_, opts)
+            require "illuminate".configure(opts)
+            require "illuminate".toggle()
+        end,
+        keys = {
+            {
+                "[]",
+                function() require "illuminate".toggle() end,
+                desc = "Toggle Illuminate",
+            },
+            {
+                "[[",
+                function() require "illuminate".goto_prev_reference(false) end,
+                desc = "Prev Reference",
+            },
+            {
+                "]]",
+                function() require "illuminate".goto_next_reference(false) end,
+                desc = "Next Reference",
             },
         },
     },
