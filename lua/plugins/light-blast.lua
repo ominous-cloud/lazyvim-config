@@ -328,5 +328,11 @@ return {
     },
     {
         "lstwn/broot.vim",
+        config = function()
+            vim.keymap.set("n", "<leader>en", "<cmd>Broot<cr>", {
+                noremap = true,
+                silent = true,
+            })
+        end,
     },
 }
