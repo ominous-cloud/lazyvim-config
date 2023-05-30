@@ -82,6 +82,24 @@ return {
                         "-data",
                         vim.fn.stdpath("cache") .. "/../jdtls/workspace",
                     },
+                    handlers = {
+                        ['language/status'] = vim.schedule_wrap(function(_, result)
+                            vim.cmd "echohl ModeMsg"
+                            if result.message ~= nil then
+                                print(result.message)
+                                vim.cmd(string.format("echo \"%s\"", result.message))
+                            end
+                            vim.cmd "echohl None"
+                        end),
+                        ["$/progress"] = vim.schedule_wrap(function(_, result)
+                            vim.cmd "echohl ModeMsg"
+                            if result.message ~= nil then
+                                print(result.message)
+                                vim.cmd(string.format("echo \"%s\"", result.message))
+                            end
+                            vim.cmd "echohl None"
+                        end),
+                    },
                 },
                 volar = {
                     mason = false,
