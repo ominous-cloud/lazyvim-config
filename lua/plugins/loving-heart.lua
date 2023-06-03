@@ -45,6 +45,7 @@ return {
     },
     {
         "L3MON4D3/LuaSnip",
+        build = "make install_jsregexp LUA_LDLIBS=-lluajit-5.1",
         keys = {
             { "<tab>", false, mode = "i" },
             {
