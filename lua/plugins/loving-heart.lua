@@ -115,17 +115,17 @@ return {
         end,
         keys = {
             {
-                "[]",
+                "g[",
                 function() require "illuminate".toggle() end,
                 desc = "Toggle Illuminate",
             },
             {
-                "[[",
+                "g{",
                 function() require "illuminate".goto_prev_reference(false) end,
                 desc = "Prev Reference",
             },
             {
-                "]]",
+                "g}",
                 function() require "illuminate".goto_next_reference(false) end,
                 desc = "Next Reference",
             },
