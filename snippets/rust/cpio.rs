@@ -2,7 +2,7 @@
 mod io {
     use std::{
         error::Error,
-        fmt::{Display, Arguments},
+        fmt::{Arguments, Display},
         io::{stdin, stdout, BufRead, BufWriter, StdinLock, StdoutLock, Write},
         str::FromStr,
     };
