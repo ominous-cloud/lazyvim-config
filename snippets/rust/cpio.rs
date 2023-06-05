@@ -47,6 +47,13 @@ mod io {
             Ok(std::mem::take(&mut self.buf))
         }
 
+        pub fn read_bytes(&mut self, n: usize) -> Result<Vec<u8>, Box<dyn Error>> {
+            self.scan.read_line(&mut self.buf)?;
+            let mut s = std::mem::take(&mut self.buf);
+            s.truncate(n);
+            Ok(s.into_bytes())
+        }
+
         pub fn read<T>(&mut self) -> Result<T, Box<dyn std::error::Error>>
         where
             T: FromStr,
