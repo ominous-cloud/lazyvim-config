@@ -6,6 +6,7 @@ vim.opt.ruler = false
 vim.opt.wrap = true
 vim.opt.showmode = false
 vim.opt.showcmd = false
+vim.opt.showtabline = 0
 
 -- vim.opt.guicursor = {
 --     "n-v-c-sm:hor20-Cursor/lCurosr",
