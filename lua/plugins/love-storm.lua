@@ -4,6 +4,7 @@ local function colorful()
     local fg = colors.foreground
     local bg = colors.background
     local dark = colors.black
+    local none = "none"
 
     local palette_overrides = {
         dark0_hard = dark,
@@ -48,6 +49,13 @@ local function colorful()
         -- LspCodeLens = {
         --     italic = false,
         -- },
+        Todo = {
+            fg = fg,
+            bg = none,
+        },
+        Search = {
+            underline = true,
+        },
         NoiceLspProgressTitle = {
             fg = fg,
         },
@@ -99,7 +107,7 @@ local function colorful()
         invert_signs = false,
         invert_tabline = false,
         invert_intend_guides = false,
-        inverse = true,
+        inverse = false,
         contrast = "",
         dim_inactive = false,
         transparent_mode = true,
