@@ -53,9 +53,6 @@ local function colorful()
             fg = fg,
             bg = none,
         },
-        Search = {
-            underline = true,
-        },
         NoiceLspProgressTitle = {
             fg = fg,
         },
