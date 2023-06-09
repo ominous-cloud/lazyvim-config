@@ -101,9 +101,12 @@ return {
                         end),
                     },
                 },
+                tsserver = {
+                    mason = false,
+                },
                 volar = {
                     mason = false,
-                    filetypes = { "typescript", "typescriptreact", "vue" },
+                    filetypes = { "vue" },
                 },
                 hls = {
                     mason = false,
