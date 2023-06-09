@@ -8,11 +8,7 @@ vim.opt.showmode = false
 vim.opt.showcmd = false
 vim.opt.showtabline = 0
 
--- vim.opt.guicursor = {
---     "n-v-c-sm:hor20-Cursor/lCurosr",
---     "i-ci-ve:ver25-Cursor/lCursor",
---     "r-cr-o:hor20-Cursor/lCursor",
--- }
+vim.opt.conceallevel = 0
 
 vim.opt.ignorecase = false
 vim.opt.completeopt = "menu,preview"
@@ -24,3 +20,9 @@ vim.opt.tabstop = 8
 vim.opt.autowrite = false
 vim.opt.confirm = false
 vim.opt.clipboard = "unnamed"
+
+-- vim.opt.guicursor = {
+--     "n-v-c-sm:hor20-Cursor/lCurosr",
+--     "i-ci-ve:ver25-Cursor/lCursor",
+--     "r-cr-o:hor20-Cursor/lCursor",
+-- }
