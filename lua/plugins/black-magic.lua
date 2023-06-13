@@ -69,6 +69,13 @@ return {
                 },
                 nil_ls = {
                     mason = false,
+                    settings = {
+                        ["nil"] = {
+                            formatting = {
+                                command = { "nixpkgs-fmt" },
+                            },
+                        },
+                    },
                 },
                 rust_analyzer = {
                     mason = false,
