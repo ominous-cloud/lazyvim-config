@@ -1,6 +1,6 @@
 return {
     { "lewis6991/gitsigns.nvim",                     enabled = false },
-    { "lukas-reineke/indent-blankline.nvim",         enabled = false },
+    -- { "lukas-reineke/indent-blankline.nvim",         enabled = false },
     { "echasnovski/mini.indentscope",                enabled = false },
     { "echasnovski/mini.ai",                         enabled = false },
     { "ggandor/leap.nvim",                           enabled = false },

@@ -1,4 +1,5 @@
 local function colorful()
+    -- debug using vim.show_pos()
     local style = "dark"
     local colors = require "decay.core".get_colors(style)
     local fg = colors.foreground
@@ -122,7 +123,7 @@ local function colorful()
     }
 end
 
-local function monochrome()
+local function decay()
     local style = "dark";
     local colors = require "decay.core".get_colors(style)
     local fg = colors.foreground
@@ -153,11 +154,34 @@ local function monochrome()
 end
 
 return {
-    { "catppuccin/nvim", name = "catppuccin", enabled = false },
     {
         "LazyVim/LazyVim",
         opts = {
-            colorscheme = colorful,
+            colorscheme = "catppuccin",
+        },
+    },
+    {
+        "catppuccin/nvim",
+        name = "catppuccin",
+        opts = {
+            flavour = "mocha",
+            transparent_background = true,
+            show_end_of_buffer = false,
+            dim_inactive = {
+                enabled = false,
+            },
+            no_italic = false,
+            no_bold = false,
+            no_underline = false,
+            styles = {
+                comments = { "italic" },
+                conditionals = { },
+                keywords = { },
+            },
+            color_overrides = {},
+            custom_highlights = {
+                ["@parameter"] = { style = { } },
+            },
         },
     },
     {
