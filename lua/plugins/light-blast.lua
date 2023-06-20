@@ -1,11 +1,10 @@
 return {
-    { "akinsho/bufferline.nvim",    enabled = false },
-    { "echasnovski/mini.bufremove", enabled = false },
-    { "nvim-lualine/lualine.nvim",  enabled = false },
-    { "SmiteshP/nvim-navic",        enabled = false },
-    { "folke/which-key.nvim",       enabled = false },
-    { "rcarriga/nvim-notify",       enabled = false },
-    { "folke/noice.nvim",           enabled = false },
+    { "akinsho/bufferline.nvim",   enabled = false },
+    { "nvim-lualine/lualine.nvim", enabled = false },
+    { "SmiteshP/nvim-navic",       enabled = false },
+    { "folke/which-key.nvim",      enabled = false },
+    { "rcarriga/nvim-notify",      enabled = false },
+    { "folke/noice.nvim",          enabled = false },
     {
         "goolord/alpha-nvim",
         config = function()
@@ -16,6 +15,13 @@ return {
             }
             require "alpha".setup(config)
         end,
+    },
+    {
+        "echasnovski/mini.bufremove",
+        keys = {
+            { "<leader>fd", function() require("mini.bufremove").delete(0, false) end, desc = "Delete Buffer" },
+            { "<leader>fD", function() require("mini.bufremove").delete(0, true) end,  desc = "Delete Buffer (Force)" },
+        },
     },
     {
         "nvim-neo-tree/neo-tree.nvim",
@@ -74,7 +80,10 @@ return {
         },
         opts = {
             source_selector = {
-                sources = { "filesystem", "buffers" },
+                sources = {
+                    { source = "filesystem" },
+                    { source = "buffers" },
+                },
             },
             window = {
                 position = "right",
