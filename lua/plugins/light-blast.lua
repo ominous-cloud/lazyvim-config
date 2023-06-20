@@ -98,9 +98,9 @@ return {
                         deleted   = "",
                         renamed   = "",
                         -- Status type
-                        untracked = "󰄗",
+                        untracked = "󰄱",
                         ignored   = "",
-                        unstaged  = "󰄱",
+                        unstaged  = "󰄗",
                         staged    = "󰱒",
                         conflict  = "",
                     },
