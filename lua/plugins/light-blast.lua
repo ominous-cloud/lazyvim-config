@@ -79,6 +79,7 @@ return {
             },
         },
         opts = {
+            close_if_last_window = true,
             source_selector = {
                 sources = {
                     { source = "filesystem" },
