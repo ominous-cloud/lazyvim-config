@@ -74,11 +74,7 @@ return {
         },
         opts = {
             source_selector = {
-                sources = {
-                    { source = "filesystem", display_name = "  Files " },
-                    { source = "buffers",    display_name = "  Buffers " },
-                    -- { source = "git_status", display_name = "  Git " },
-                },
+                sources = { "filesystem", "buffers" },
             },
             window = {
                 position = "right",
@@ -93,6 +89,22 @@ return {
             filesystem = {
                 -- create file using "../newfile"
                 group_empty_dirs = true,
+            },
+            default_component_configs = {
+                git_status = {
+                    symbols = {
+                        added     = "",
+                        modified  = "",
+                        deleted   = "",
+                        renamed   = "",
+                        -- Status type
+                        untracked = "󰄗",
+                        ignored   = "",
+                        unstaged  = "󰄱",
+                        staged    = "󰱒",
+                        conflict  = "",
+                    },
+                },
             },
         },
     },
