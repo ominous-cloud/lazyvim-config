@@ -9,6 +9,7 @@ return {
     { "nvim-treesitter/nvim-treesitter-textobjects", enabled = false },
     { "folke/todo-comments.nvim",                    enabled = false },
     { "echasnovski/mini.pairs",                      enabled = false },
+    { "rafamadriz/friendly-snippets",                enabled = false },
     {
         "hrsh7th/nvim-cmp",
         opts = function(_, opts)
@@ -17,7 +18,7 @@ return {
                 autocomplete = false,
             }
             opts.experimental = {
-                 ghost_text = false,
+                ghost_text = false,
             }
             opts.mapping = cmp.mapping.preset.insert({
                 ["<c-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
