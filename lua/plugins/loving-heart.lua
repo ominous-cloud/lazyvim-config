@@ -1,7 +1,7 @@
 return {
     { "lewis6991/gitsigns.nvim",                     enabled = false },
     -- { "lukas-reineke/indent-blankline.nvim",         enabled = false },
-    { "echasnovski/mini.indentscope",                enabled = false },
+    -- { "echasnovski/mini.indentscope",                enabled = false },
     { "echasnovski/mini.ai",                         enabled = false },
     { "ggandor/leap.nvim",                           enabled = false },
     { "ggandor/flit.nvim",                           enabled = false },
@@ -131,5 +131,15 @@ return {
                 desc = "Next Reference",
             },
         },
+    },
+    {
+        "echasnovski/mini.indentscope",
+        config = function(_, opts)
+            local animation = require('mini.indentscope').gen_animation.none()
+            opts.draw = opts.draw or {}
+            opts.draw.delay = 10
+            opts.draw.animation = animation
+            require 'mini.indentscope'.setup(opts)
+        end,
     },
 }
