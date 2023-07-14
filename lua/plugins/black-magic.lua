@@ -115,6 +115,10 @@ return {
                     mason = false,
                     filetypes = { "vue" },
                 },
+                clangd = {
+                    mason = false,
+                    filetypes = { "c", "cpp" },
+                },
                 hls = {
                     mason = false,
                 },
