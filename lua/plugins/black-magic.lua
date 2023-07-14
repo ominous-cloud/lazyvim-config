@@ -119,6 +119,9 @@ return {
                     mason = false,
                     filetypes = { "c", "cpp" },
                 },
+                cmake = {
+                    mason = false,
+                },
                 hls = {
                     mason = false,
                 },
