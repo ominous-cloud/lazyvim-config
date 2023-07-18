@@ -16,6 +16,7 @@ vim.opt.wildmode = "full"
 
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 8
+vim.g.editorconfig = true
 
 vim.opt.autowrite = false
 vim.opt.confirm = false
