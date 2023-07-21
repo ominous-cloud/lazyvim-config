@@ -159,4 +159,16 @@ return {
             opts.ensure_installed = {}
         end,
     },
+    {
+        "simrat39/rust-tools.nvim",
+        lazy = true,
+        opts = {
+            tools = {
+                on_initialized = function()
+                end,
+            },
+        },
+        config = function()
+        end,
+    },
 }
