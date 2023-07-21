@@ -1,5 +1,7 @@
 return {
     -- { "folke/neodev.nvim", enabled = false },
+    { import = "lazyvim.plugins.extras.lang.clangd" },
+    { import = "lazyvim.plugins.extras.lang.rust" },
     {
         "neovim/nvim-lspconfig",
         init = function()
@@ -77,9 +79,6 @@ return {
                         },
                     },
                 },
-                rust_analyzer = {
-                    mason = false,
-                },
                 jdtls = {
                     mason = false,
                     cmd = {
@@ -115,9 +114,14 @@ return {
                     mason = false,
                     filetypes = { "vue" },
                 },
+                rust_analyzer = {
+                    mason = false,
+                },
+                taplo = {
+                    mason = false,
+                },
                 clangd = {
                     mason = false,
-                    filetypes = { "c", "cpp" },
                 },
                 cmake = {
                     mason = false,
@@ -151,8 +155,8 @@ return {
     },
     {
         "williamboman/mason.nvim",
-        opts = {
-            ensure_installed = {},
-        },
+        opts = function(_, opts)
+            opts.ensure_installed = {}
+        end,
     },
 }

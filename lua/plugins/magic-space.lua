@@ -15,52 +15,6 @@ return {
                     numhl = sign[3],
                 })
             end
-
-            local dap = require "dap"
-            local utils = require "dap.utils"
-            dap.adapters.codelldb = {
-                type = "server",
-                port = "${port}",
-                executable = {
-                    command = "codelldb",
-                    args = { "--port", "${port}" },
-                    -- detached = false,
-                }
-            }
-            local codelldb_launch_config = {
-                name = "codelldb: Launch",
-                type = "codelldb",
-                request = "launch",
-                program = function()
-                    return vim.fn.input({
-                        prompt = "Path to executable: ",
-                        default = vim.fn.getcwd() .. "/",
-                        completion = "file",
-                    })
-                end,
-                cwd = function()
-                    return vim.fn.input({
-                        prompt = "Working Directory > ",
-                        default = vim.fn.getcwd() .. "/",
-                        completion = "file",
-                    })
-                end,
-                stopOnEntry = false,
-                runInTerminal = false,
-            }
-            local codelldb_attach_config = {
-                name = "codelldb: Attach to process",
-                type = "codelldb",
-                request = "attach",
-                pid = utils.pick_process,
-                args = {},
-            }
-            local codelldb_configs = {
-                codelldb_launch_config,
-                codelldb_attach_config,
-            }
-            dap.configurations.cpp = codelldb_configs
-            dap.configurations.rust = codelldb_configs
         end,
     },
     {
