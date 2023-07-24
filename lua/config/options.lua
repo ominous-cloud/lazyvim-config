@@ -1,6 +1,6 @@
 vim.opt.number = false
 vim.opt.relativenumber = false
-vim.opt.signcolumn = "yes"
+vim.opt.signcolumn = "no"
 vim.opt.cursorline = false
 vim.opt.ruler = false
 vim.opt.wrap = true

@@ -47,7 +47,7 @@ return {
         end,
         opts = {
             diagnostics = {
-                virtual_text = false,
+                virtual_text = true,
                 signs = {
                     severity = {
                         min = vim.diagnostic.severity.WARN
