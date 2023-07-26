@@ -2,6 +2,7 @@ return {
     -- { "folke/neodev.nvim", enabled = false },
     { import = "lazyvim.plugins.extras.lang.clangd" },
     { import = "lazyvim.plugins.extras.lang.rust" },
+    { import = "lazyvim.plugins.extras.lang.tex" },
     {
         "neovim/nvim-lspconfig",
         init = function()
@@ -127,6 +128,9 @@ return {
                     mason = false,
                 },
                 hls = {
+                    mason = false,
+                },
+                texlab = {
                     mason = false,
                 },
             },
