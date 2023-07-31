@@ -189,6 +189,7 @@ return {
 
             vim.g.vimtex_mappings_disable = { ["n"] = { "K" } }
             vim.g.vimtex_quickfix_method = vim.fn.executable("pplatex") == 1 and "pplatex" or "latexlog"
+            vim.g.vimtex_imaps_enabled = false
         end,
     },
 
