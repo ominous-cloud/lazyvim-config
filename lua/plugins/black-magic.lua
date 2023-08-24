@@ -177,7 +177,7 @@ return {
     },
     {
         "lervag/vimtex",
-        lazy = false,     -- lazy-loading will disable inverse search
+        lazy = false, -- lazy-loading will disable inverse search
         config = function()
             vim.api.nvim_create_autocmd({ "FileType" }, {
                 group = vim.api.nvim_create_augroup("lazyvim_vimtex_conceal", { clear = true }),
@@ -190,6 +190,10 @@ return {
             vim.g.vimtex_mappings_disable = { ["n"] = { "K" } }
             vim.g.vimtex_quickfix_method = vim.fn.executable("pplatex") == 1 and "pplatex" or "latexlog"
             vim.g.vimtex_imaps_enabled = false
+            vim.g.vimtex_compiler_method = "generic"
+            vim.g.vimtex_compiler_generic = {
+                command = "ls",
+            }
         end,
     },
 
