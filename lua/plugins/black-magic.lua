@@ -133,14 +133,6 @@ return {
                 texlab = {
                     mason = false,
                 },
-                typst_lsp = {
-                    mason = false,
-                    settings = {
-                        ["typst-lsp"] = {
-                            exportPdf = "never",
-                        },
-                    },
-                },
             },
             setup = {
                 volar = function(_, opts)
