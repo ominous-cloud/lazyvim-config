@@ -133,6 +133,9 @@ return {
                 texlab = {
                     mason = false,
                 },
+                pyright = {
+                    mason = false,
+                },
             },
             setup = {
                 volar = function(_, opts)
