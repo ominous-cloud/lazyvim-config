@@ -1,6 +1,6 @@
 vim.api.nvim_create_augroup("TwoSpaceFileType", { clear = true })
 vim.api.nvim_create_autocmd("FileType", {
-    pattern = { 
+    pattern = {
         "vue", "typescript", "typescriptreact",
         "nix",
     },

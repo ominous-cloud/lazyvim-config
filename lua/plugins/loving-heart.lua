@@ -143,4 +143,8 @@ return {
             require 'mini.indentscope'.setup(opts)
         end,
     },
+    {
+        "h-hg/fcitx.nvim",
+        lazy = false,
+    },
 }
