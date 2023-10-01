@@ -1,9 +1,3 @@
-vim.filetype.add({
-    extension = {
-        wgsl = "wgsl",
-    },
-})
-
 vim.api.nvim_create_augroup("TwoSpaceFileType", { clear = true })
 vim.api.nvim_create_autocmd("FileType", {
     pattern = {

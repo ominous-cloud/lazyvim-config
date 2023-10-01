@@ -27,3 +27,23 @@ vim.opt.clipboard = "unnamed"
 --     "i-ci-ve:ver25-Cursor/lCursor",
 --     "r-cr-o:hor20-Cursor/lCursor",
 -- }
+
+vim.filetype.add({
+    extension = {
+        wgsl = "wgsl",
+    },
+})
+
+--- @diagnostic disable-next-line: duplicate-set-field, unused-local
+vim.notify = function(msg, level, opts)
+    if level == vim.log.levels.ERROR then
+        vim.api.nvim_err_writeln(msg)
+    elseif level == vim.log.levels.WARN then
+        local start = "Spawning language server with cmd"
+        if msg:sub(1, #start) ~= start then
+            vim.api.nvim_echo({ { msg, 'WarningMsg' } }, true, {})
+        end
+    else
+        vim.api.nvim_echo({ { msg } }, true, {})
+    end
+end
