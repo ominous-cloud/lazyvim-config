@@ -173,6 +173,9 @@ return {
                 ruff_lsp = {
                     mason = false,
                 },
+                wgsl_analyzer = {
+                    mason = false,
+                },
             },
             setup = {
                 volar = function(_, opts)

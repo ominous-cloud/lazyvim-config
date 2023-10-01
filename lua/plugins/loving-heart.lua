@@ -77,6 +77,7 @@ return {
                 "make", "markdown", "markdown_inline",
                 "nix", "python", "qmljs", "query", "rust", "scss", "sql",
                 "tsx", "typescript", "vue", "yaml",
+                "wgsl",
             },
         },
     },
