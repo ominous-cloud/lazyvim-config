@@ -9,6 +9,7 @@ vim.opt.showcmd = false
 vim.opt.showtabline = 0
 
 vim.opt.conceallevel = 0
+vim.opt.spelllang="en,cjk"
 
 vim.opt.ignorecase = false
 vim.opt.completeopt = "menu,preview"
