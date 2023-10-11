@@ -1,7 +1,5 @@
-/target
+/.idea
+/.direnv
 /Cargo.lock
-
-*.so
-
-.idea
-.direnv
+/lua/**/*.so
+/target
