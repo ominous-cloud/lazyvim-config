@@ -252,4 +252,22 @@ return {
         ft = "typst",
         lazy = false,
     },
+    {
+        'akinsho/flutter-tools.nvim',
+        lazy = false,
+        dependencies = {
+            'nvim-lua/plenary.nvim',
+            'stevearc/dressing.nvim',
+        },
+        config = function()
+            require("flutter-tools").setup {
+                widget_guides = {
+                    enabled = true,
+                },
+                lsp = {
+                    cmd = { "dart", "language-server", "--protocol=lsp" },
+                },
+            }
+        end,
+    },
 }
