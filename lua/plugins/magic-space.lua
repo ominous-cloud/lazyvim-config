@@ -1,5 +1,4 @@
 return {
-    { import = "lazyvim.plugins.extras.dap.core" },
     {
         "mfussenegger/nvim-dap",
         config = function()

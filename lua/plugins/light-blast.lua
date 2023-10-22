@@ -1,5 +1,4 @@
 return {
-    { import = "lazyvim.plugins.extras.ui.alpha" },
     { "akinsho/bufferline.nvim",   enabled = false },
     { "nvim-lualine/lualine.nvim", enabled = false },
     { "SmiteshP/nvim-navic",       enabled = false },
@@ -122,25 +121,16 @@ return {
     {
         "stevearc/aerial.nvim",
         keys = {
-            {
-                "<leader>er", "<cmd>AerialToggle!<cr>",
-            },
-        },
-        opts = {
-            backends = { "lsp", "treesitter", "markdown", "man" },
-        },
-        dependencies = {
-            "nvim-treesitter/nvim-treesitter",
-            "nvim-tree/nvim-web-devicons"
+            { "<leader>er", "<cmd>AerialToggle!<cr>" },
         },
     },
     {
         "nvim-telescope/telescope.nvim",
         keys = {
-            { "<leader>,",       false, },
-            { "<leader>:",       false, },
-            { "<leader>/",       false, },
-            { "<leader><space>", false, },
+            { "<leader>,",       false },
+            { "<leader>:",       false },
+            { "<leader>/",       false },
+            { "<leader><space>", false },
             { "<leader>fb",      false },
             { "<leader>ff",      false },
             { "<leader>fF",      false },
