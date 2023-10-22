@@ -1,4 +1,5 @@
 return {
+    { import = "lazyvim.plugins.extras.ui.alpha" },
     { "akinsho/bufferline.nvim",   enabled = false },
     { "nvim-lualine/lualine.nvim", enabled = false },
     { "SmiteshP/nvim-navic",       enabled = false },

@@ -9,7 +9,7 @@ vim.opt.showcmd = false
 vim.opt.showtabline = 0
 
 vim.opt.conceallevel = 0
-vim.opt.spelllang="en,cjk"
+vim.opt.spelllang = "en,cjk"
 
 vim.opt.ignorecase = false
 vim.opt.completeopt = "menu,preview"
@@ -28,6 +28,8 @@ vim.opt.clipboard = "unnamed"
 --     "i-ci-ve:ver25-Cursor/lCursor",
 --     "r-cr-o:hor20-Cursor/lCursor",
 -- }
+
+vim.g.autoformat = false
 
 vim.filetype.add({
     extension = {

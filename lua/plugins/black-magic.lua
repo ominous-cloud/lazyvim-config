@@ -8,42 +8,14 @@ return {
         init = function()
             local keymaps = require "lazyvim.plugins.lsp.keymaps"
             local keys = keymaps.get()
-            local format_slow = function()
-                local buf = vim.api.nvim_get_current_buf()
-                local ft = vim.bo[buf].filetype
-                local sources = require "null-ls.sources"
-                local have_nls = #sources.get_available(ft, "NULL_LS_FORMATTING") > 0
-                local opts = vim.tbl_deep_extend("force", {
-                    timeout_ms = 2000,
-                    bufnr = buf,
-                    filter = function(client)
-                        if have_nls then
-                            return client.name == "null-ls"
-                        end
-                        return client.name ~= "null-ls"
-                    end,
-                }, require "lazyvim.util".opts("nvim-lspconfig").format or {})
-                vim.lsp.buf.format(opts)
-            end
             local function add(maps)
-                for _, config in ipairs(maps) do
+                vim.iter(maps):each(function(config)
                     keys[#keys + 1] = config
-                end
+                end)
             end
             add {
-                { "[g", keymaps.diagnostic_goto(false) },
-                { "]g", keymaps.diagnostic_goto(true) },
-                {
-                    "<leader>cF",
-                    format_slow,
-                    has = "documentFormatting"
-                },
-                {
-                    "<leader>cF",
-                    format_slow,
-                    mode = "v",
-                    has = "documentRangeFormatting"
-                },
+                { "[g", vim.diagnostic.goto_prev },
+                { "]g", vim.diagnostic.goto_next },
             }
         end,
         opts = {
@@ -55,7 +27,6 @@ return {
                     }
                 },
             },
-            autoformat = false,
             servers = {
                 lua_ls = {
                     mason = false,
@@ -197,22 +168,24 @@ return {
         },
     },
     {
-        "nvimtools/none-ls.nvim",
-        opts = function()
-            local null_ls = require "null-ls";
-            return {
-                sources = {
-                    null_ls.builtins.formatting.stylua,
-                    null_ls.builtins.formatting.eslint_d,
-                },
-            }
-        end,
-    },
-    {
         "williamboman/mason.nvim",
         opts = function(_, opts)
             opts.ensure_installed = {}
         end,
+    },
+    {
+        "mfussenegger/nvim-lint",
+        opts = {
+            linters_by_ft = {
+            }
+        }
+    },
+    {
+        "stevearc/conform.nvim",
+        opts = {
+            formatters_by_ft = {
+            },
+        },
     },
     {
         "simrat39/rust-tools.nvim",
