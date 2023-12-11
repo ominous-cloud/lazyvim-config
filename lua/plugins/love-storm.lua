@@ -3,11 +3,6 @@ local function default_color()
         local none = "NONE"
         vim.api.nvim_set_hl(0, group, { bg = none })
     end
-    local function link(group)
-        return function(base)
-            vim.api.nvim_set_hl(0, group, { link = base })
-        end
-    end
     local function unbold(group)
         vim.api.nvim_set_hl(0, group, { bold = false })
     end
