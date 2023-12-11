@@ -8,10 +8,13 @@ local function default_color()
             vim.api.nvim_set_hl(0, group, { link = base })
         end
     end
+    local function unbold(group)
+        vim.api.nvim_set_hl(0, group, { bold = false })
+    end
     vim.cmd.colorscheme "default"
     transparent "Normal"
     transparent "StatusLine"
-    link "Keyword" "Constant"
+    unbold "Keyword"
 end
 
 return {
