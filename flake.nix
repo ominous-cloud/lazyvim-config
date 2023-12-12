@@ -15,6 +15,7 @@
         devShell = pkgs.mkShell {
           buildInputs = with pkgs; [
             sumneko-lua-language-server
+            luajit
           ];
         };
       }
