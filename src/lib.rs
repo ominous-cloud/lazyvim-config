@@ -1,12 +1,15 @@
-use nvim_oxi::{self as oxi, Dictionary, Function};
+pub use nvim_oxi as oxi;
+use nvim_oxi::{Dictionary, Function};
+
+mod init;
+mod config;
+mod plugins;
+mod utils;
 
 #[oxi::module]
 pub fn config() -> oxi::Result<Dictionary> {
     Ok(Dictionary::from_iter([(
         "setup",
-        Function::from_fn::<_, oxi::Error>(move |()| {
-            oxi::print!("Looks like it's going to be a fun night.");
-            Ok(())
-        }),
+        Function::from_fn::<_, oxi::Error>(init::setup),
     )]))
 }
