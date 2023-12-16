@@ -8,9 +8,18 @@ macro_rules! g {
     };
 }
 
-fn append(key: & str, value: &str) -> oxi::Result<()> {
+macro_rules! l {
+    ($($key:ident => $value:expr),*$(,)?) => {
+        let opts =crate::oxi::api::opts::OptionValueOpts::builder().build();
+        $(
+            crate::oxi::api::set_option_value( stringify!($key), $value, &opts)?;
+        )*
+    };
+}
+
+fn append(key: &str, value: &str) -> oxi::Result<()> {
     let current_value: String = api::get_option(key)?;
-    let new_value =  format!("{}{}", current_value, value);
+    let new_value = format!("{}{}", current_value, value);
     api::set_option(key, new_value)?;
     Ok(())
 }
@@ -25,15 +34,16 @@ pub(crate) fn setup() -> oxi::Result<()> {
         ruler => false,
         showtabline => 0,
         clipboard => "unnamed",
-        undofile => true,
         cindent => true,
         scrolloff => 5,
         showmode => false,
-        smoothscroll => true,
         termguicolors => true,
         laststatus => 0,
-    }
-
+    };
+    l! {
+        undofile => true,
+        smoothscroll => true,
+    };
     append("shortmess", "cSI")?;
 
     api::command("color default")?;
