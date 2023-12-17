@@ -2,7 +2,7 @@ use crate::oxi::{self, api};
 
 macro_rules! opt {
     ($($key:ident: $value:expr),*$(,)?) => {
-        let opts =crate::oxi::api::opts::OptionValueOpts::builder().build();
+        let opts =crate::oxi::api::opts::OptionValueOpts::default();
         $(
             crate::oxi::api::set_option_value( stringify!($key), $value, &opts)?;
         )*
@@ -10,9 +10,22 @@ macro_rules! opt {
 }
 
 fn append(key: &str, value: &str) -> oxi::Result<()> {
-    let current_value: String = api::get_option(key)?;
+    let opts = api::opts::OptionValueOpts::default();
+    let current_value: String = api::get_option_value(key, &opts)?;
     let new_value = format!("{}{}", current_value, value);
-    api::set_option(key, new_value)?;
+    api::set_option_value(key, new_value, &opts)?;
+    Ok(())
+}
+
+fn remove(key: &str, value: &str) -> oxi::Result<()> {
+    let opts = api::opts::OptionValueOpts::default();
+    let current_value: String = api::get_option_value(key, &opts)?;
+    let new_value = current_value
+        .split(",")
+        .filter(|&x| x != value)
+        .collect::<Vec<_>>()
+        .join(",");
+    api::set_option_value(key, new_value, &opts)?;
     Ok(())
 }
 
@@ -35,6 +48,8 @@ pub(crate) fn setup() -> oxi::Result<()> {
         smoothscroll: true,
     };
     append("shortmess", "cSI")?;
+    remove("cinkeys", "0#")?;
+    remove("indentkeys", "0#")?;
 
     // api::command("color quiet")?;
     // api::command("color default")?;
