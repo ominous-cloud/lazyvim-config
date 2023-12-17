@@ -7,6 +7,7 @@ use std::{
 use clap::{command, Parser, Subcommand};
 
 type AnyError = Box<dyn std::error::Error>;
+const SO_FILE: &str = "mvim.so";
 
 #[derive(Debug, Parser)]
 #[command(name = "xtask")]
@@ -52,14 +53,14 @@ fn release() -> Result<(), AnyError> {
     let rtp = runtime_path();
     std::fs::create_dir_all(&rtp)?;
     std::fs::copy(
-        &project_root().join("target/release/libneovim_config.so"),
-        &rtp.join("config.so"),
+        &project_root().join("target/release/libmvim.so"),
+        &rtp.join(SO_FILE),
     )?;
     Ok(())
 }
 
 fn clean() -> Result<(), AnyError> {
-    std::fs::remove_file(runtime_path().join("config.so"))?;
+    std::fs::remove_file(runtime_path().join(SO_FILE))?;
     Ok(())
 }
 

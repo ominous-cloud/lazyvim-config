@@ -7,7 +7,7 @@ mod plugins;
 mod utils;
 
 #[oxi::module]
-pub fn config() -> oxi::Result<Dictionary> {
+pub fn mvim() -> oxi::Result<Dictionary> {
     Ok(Dictionary::from_iter([(
         "setup",
         Function::from_fn::<_, oxi::Error>(init::setup),

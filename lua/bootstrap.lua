@@ -1,7 +1,7 @@
 function bootstrap()
   local config_path = vim.fn.stdpath("config")
-  local config_so = config_path .. "/lua/config.so"
-  if not vim.loop.fs_stat(config_so) then
+  local so_file = config_path .. "/lua/mvim.so"
+  if not vim.loop.fs_stat(so_file) then
     print("config: Bootstraping...")
     vim.cmd.cd(config_path)
     local status = vim.system({"cargo", "xtask", "release"}):wait()
