@@ -1,3 +1,3 @@
 return {
-    -- implement some custom plugins
+  -- implement some custom plugins
 }
