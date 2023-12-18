@@ -39,10 +39,7 @@ pub(crate) fn setup() -> oxi::Result<()> {
     }
 
     opt! {
-        autoread: true,
-        belloff: "all",
         fillchars: "eob: ,fold: ,vert: ",
-        background: "dark",
         showcmd: false,
         ruler: false,
         showtabline: 0,
