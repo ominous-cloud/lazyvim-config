@@ -46,6 +46,7 @@ pub(crate) fn setup() -> oxi::Result<()> {
         showcmd: false,
         ruler: false,
         showtabline: 0,
+        signcolumn: "no",
         clipboard: "unnamed",
         cindent: true,
         scrolloff: 5,

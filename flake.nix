@@ -21,6 +21,7 @@
             rust-analyzer
             openssl
             luajit
+            lua-language-server
           ];
           nativeBuildInputs = with pkgs; [
             rustPlatform.bindgenHook

@@ -13,4 +13,5 @@ members = [
 ]
 
 [dependencies]
+mlua = { version = "0.9.2", features = ["luajit", "macros"] }
 nvim-oxi = { version = "0.4.1", features = ["neovim-nightly", "libuv", "mlua"] }

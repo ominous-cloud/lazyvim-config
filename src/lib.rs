@@ -1,5 +1,4 @@
 pub use nvim_oxi as oxi;
-use nvim_oxi::{Dictionary, Function};
 
 mod config;
 mod init;
@@ -7,9 +6,9 @@ mod plugins;
 mod utils;
 
 #[oxi::module]
-pub fn mvim() -> oxi::Result<Dictionary> {
-    Ok(Dictionary::from_iter([(
+pub fn mvim() -> oxi::Result<oxi::Dictionary> {
+    Ok(oxi::Dictionary::from_iter([(
         "setup",
-        Function::from_fn::<_, oxi::Error>(init::setup),
+        oxi::Function::from_fn::<_, oxi::Error>(init::setup),
     )]))
 }
