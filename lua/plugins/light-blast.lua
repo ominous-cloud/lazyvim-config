@@ -1,10 +1,10 @@
 return {
   { "akinsho/bufferline.nvim",   enabled = false },
   { "nvim-lualine/lualine.nvim", enabled = false },
-  { "SmiteshP/nvim-navic",     enabled = false },
-  { "folke/which-key.nvim",    enabled = false },
-  { "rcarriga/nvim-notify",    enabled = false },
-  { "folke/noice.nvim",      enabled = false },
+  { "SmiteshP/nvim-navic",       enabled = false },
+  -- { "folke/which-key.nvim",   enabled = false },
+  { "rcarriga/nvim-notify",      enabled = false },
+  { "folke/noice.nvim",          enabled = false },
   {
     "goolord/alpha-nvim",
     config = function()
@@ -32,7 +32,7 @@ return {
           "<leader>wp",
           function()
             local picked_window_id = require "window-picker".pick_window()
-              or vim.api.nvim_get_current_win()
+                or vim.api.nvim_get_current_win()
             vim.api.nvim_set_current_win(picked_window_id)
           end,
           desc = "Pick a window",
@@ -57,6 +57,7 @@ return {
             dir = require "lazyvim.util".root.get(),
           })
         end,
+        desc = "neotree root"
       },
       {
         "<leader>eW",
@@ -67,6 +68,7 @@ return {
             dir = vim.loop.cwd(),
           })
         end,
+        desc = "neotree cwd"
       },
       {
         "<leader>ee",
@@ -76,6 +78,7 @@ return {
             source = "buffers",
           })
         end,
+        desc = "neotree buffer"
       },
     },
     opts = {
@@ -105,7 +108,7 @@ return {
       default_component_configs = {
         git_status = {
           symbols = {
-            added   = "",
+            added     = "",
             modified  = "",
             deleted   = "",
             renamed   = "",
@@ -113,7 +116,7 @@ return {
             untracked = "󰄱",
             ignored   = "",
             unstaged  = "󰄗",
-            staged  = "󰱒",
+            staged    = "󰱒",
             conflict  = "",
           },
         },
@@ -136,17 +139,17 @@ return {
   {
     "nvim-telescope/telescope.nvim",
     keys = {
-      { "<leader>,",     false },
-      { "<leader>:",     false },
-      { "<leader>/",     false },
+      { "<leader>,",       false },
+      { "<leader>:",       false },
+      { "<leader>/",       false },
       { "<leader><space>", false },
-      { "<leader>fb",    false },
-      { "<leader>ff",    false },
-      { "<leader>fF",    false },
-      { "<leader>fr",    false },
-      { "<leader>fR",    false },
-      { "<leader>sd",    false },
-      { "<leader>sD",    false },
+      { "<leader>fb",      false },
+      { "<leader>ff",      false },
+      { "<leader>fF",      false },
+      { "<leader>fr",      false },
+      { "<leader>fR",      false },
+      { "<leader>sd",      false },
+      { "<leader>sD",      false },
       -- try <leader>sr to use spectre
       {
         "<leader>Fr",
@@ -208,28 +211,8 @@ return {
       },
       keymap = {
         builtin = {
-          ["<c-z>"]  = "toggle-preview",
-          ["<f1>"]   = "toggle-help",
-          ["<f2>"]   = "toggle-fullscreen",
-          ["<f3>"]   = "toggle-preview-wrap",
-          ["<f4>"]   = "toggle-preview",
-          ["<f5>"]   = "toggle-preview-ccw",
-          ["<f6>"]   = "toggle-preview-cw",
-          ["<c-d>"]  = "preview-page-down",
-          ["<c-u>"]  = "preview-page-up",
-          ["<s-left>"] = "preview-page-reset",
         },
         fzf = {
-          ["ctrl-z"] = "toggle-preview",
-          ["ctrl-f"] = "half-page-down",
-          ["ctrl-b"] = "half-page-up",
-          ["ctrl-a"] = "beginning-of-line",
-          ["ctrl-e"] = "end-of-line",
-          ["alt-a"]  = "toggle-all",
-          ["f3"]   = "toggle-preview-wrap",
-          ["f4"]   = "toggle-preview",
-          ["ctrl-d"] = "preview-page-down",
-          ["ctrl-u"] = "preview-page-up",
           ["ctrl-q"] = "select-all+accept",
         },
       },
@@ -294,6 +277,7 @@ return {
       },
     }
   },
+  -- Wrong offset when getting file name
   {
     "lstwn/broot.vim",
     config = function()
@@ -312,7 +296,7 @@ return {
     },
     keys = {
       {
-        "<leader>fp", "<cmd>ZenMode<cr>",
+        "<leader>fp", "<cmd>ZenMode<cr>", desc = "zenmode",
       },
     },
   },

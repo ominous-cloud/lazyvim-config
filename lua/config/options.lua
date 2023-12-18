@@ -43,7 +43,10 @@ vim.filetype.add({
 })
 
 -- disable notification while spawning language server
---- @diagnostic disable-next-line: duplicate-set-field, unused-local
+---@param msg string Content of the notification to show to the user.
+---@param level integer|nil One of the values from |vim.log.levels|.
+---@param opts table|nil Optional parameters. Unused by default.
+---@diagnostic disable-next-line: duplicate-set-field, unused-local
 vim.notify = function(msg, level, opts)
   if level == vim.log.levels.ERROR then
     vim.api.nvim_err_writeln(msg)

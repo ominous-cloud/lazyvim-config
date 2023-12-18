@@ -9,6 +9,7 @@ local function default_color()
   vim.cmd.colorscheme "default"
   transparent "Normal"
   transparent "StatusLine"
+  transparent "NormalFloat"
   unbold "Keyword"
 end
 

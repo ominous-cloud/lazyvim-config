@@ -1,3 +1,13 @@
+---@param opts PluginLspOpts
+local function mason_off(opts)
+  vim.iter(opts.servers):each(function(_, v)
+    if v.mason == nil then
+      v.mason = false
+    end
+  end)
+  return opts
+end
+
 return {
   -- { "folke/neodev.nvim", enabled = false },
   {
@@ -11,11 +21,11 @@ return {
         end)
       end
       add {
-        { "[g", vim.diagnostic.goto_prev },
-        { "]g", vim.diagnostic.goto_next },
+        { "[g", vim.diagnostic.goto_prev, desc = "previous diagnostic" },
+        { "]g", vim.diagnostic.goto_next, desc = "next diagnostic" },
       }
     end,
-    opts = {
+    opts = mason_off {
       diagnostics = {
         virtual_text = true,
         signs = {
@@ -26,7 +36,6 @@ return {
       },
       servers = {
         lua_ls = {
-          mason = false,
           settings = {
             Lua = {
               diagnostics = {
@@ -35,11 +44,7 @@ return {
             },
           },
         },
-        jsonls = {
-          mason = false,
-        },
         nil_ls = {
-          mason = false,
           settings = {
             ["nil"] = {
               formatting = {
@@ -48,117 +53,19 @@ return {
             },
           },
         },
-        jdtls = {
-          mason = false,
-          cmd = {
-            "jdt-language-server",
-            "-configuration",
-            vim.fn.stdpath("cache") .. "/../jdtls/config",
-            "-data",
-            vim.fn.stdpath("cache") .. "/../jdtls/workspace",
-          },
-          handlers = {
-            ['language/status'] = vim.schedule_wrap(function(_, result)
-              vim.cmd "echohl ModeMsg"
-              if result.message ~= nil then
-                print(result.message)
-                vim.cmd(string.format("echo \"%s\"", result.message))
-              end
-              vim.cmd "echohl None"
-            end),
-            ["$/progress"] = vim.schedule_wrap(function(_, result)
-              vim.cmd "echohl ModeMsg"
-              if result.message ~= nil then
-                print(result.message)
-                vim.cmd(string.format("echo \"%s\"", result.message))
-              end
-              vim.cmd "echohl None"
-            end),
-          },
-        },
-        tsserver = {
-          mason = false,
-        },
-        volar = {
-          mason = false,
-          filetypes = { "vue" },
-        },
-        rust_analyzer = {
-          mason = false,
-        },
-        taplo = {
-          mason = false,
-        },
-        clangd = {
-          mason = false,
-          keys = {
-            { "<leader>cR", "<cmd>ClangdSwitchSourceHeader<cr>", desc = "Switch Source/Header (C/C++)" },
-          },
-          root_dir = function(fname)
-            return require("lspconfig.util").root_pattern(
-              "Makefile",
-              "configure.ac",
-              "configure.in",
-              "config.h.in",
-              "meson.build",
-              "meson_options.txt",
-              "build.ninja"
-            )(fname) or require("lspconfig.util").root_pattern(
-              "compile_commands.json",
-              "compile_flags.txt"
-            )(fname) or require("lspconfig.util").find_git_ancestor(fname)
-          end,
-          capabilities = {
-            offsetEncoding = { "utf-16" },
-          },
-          cmd = {
-            "clangd",
-            "--background-index",
-            "--clang-tidy",
-            "--header-insertion=iwyu",
-            "--completion-style=detailed",
-            "--function-arg-placeholders",
-            "--fallback-style=llvm",
-          },
-          init_options = {
-            usePlaceholders = true,
-            completeUnimported = true,
-            clangdFileStatus = true,
-          },
-        },
-        cmake = {
-          mason = false,
-        },
-        hls = {
-          mason = false,
-        },
-        texlab = {
-          mason = false,
-        },
-        pyright = {
-          mason = false,
-        },
-        ruff_lsp = {
-          mason = false,
-        },
-        wgsl_analyzer = {
-          mason = false,
-        },
+        clangd = {},
+        cmake = {},
+        hls = {},
+        jsonls = {},
+        pyright = {},
+        ruff_lsp = {},
+        rust_analyzer = {},
+        taplo = {},
+        texlab = {},
+        tsserver = {},
+        wgsl_analyzer = {},
       },
       setup = {
-        volar = function(_, opts)
-          opts.root_dir = require "lspconfig".util.root_pattern {
-            "package.json", "package.yaml", "node_modules", ".git",
-          }
-        end,
-        clangd = function(_, opts)
-          local clangd_ext_opts = require("lazyvim.util").opts("clangd_extensions.nvim")
-          require("clangd_extensions").setup(vim.tbl_deep_extend("force",
-            clangd_ext_opts or {}, {
-              server = opts,
-            }))
-          return false
-        end,
         ["*"] = function()
         end,
       },
@@ -198,7 +105,7 @@ return {
   },
   {
     "lervag/vimtex",
-    lazy = false, -- lazy-loading will disable inverse search
+    lazy = true, -- lazy-loading will disable inverse search
     config = function()
       vim.api.nvim_create_autocmd({ "FileType" }, {
         group = vim.api.nvim_create_augroup("lazyvim_vimtex_conceal", { clear = true }),
