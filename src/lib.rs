@@ -1,8 +1,8 @@
 pub use nvim_oxi as oxi;
 use nvim_oxi::{Dictionary, Function};
 
-mod init;
 mod config;
+mod init;
 mod plugins;
 mod utils;
 
