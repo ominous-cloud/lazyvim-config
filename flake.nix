@@ -3,6 +3,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     flake-utils.url = "github:numtide/flake-utils";
+    rust-overlay.url = "github:oxalica/rust-overlay";
   };
 
   outputs = { self, ... }@inputs:
@@ -10,20 +11,22 @@
       let
         pkgs = import inputs.nixpkgs {
           inherit system;
+          overlays = [
+            (import inputs.rust-overlay)
+          ];
         };
-      in {
+      in
+      {
         devShell = pkgs.mkShell {
           buildInputs = with pkgs; [
-            rustc
-            cargo
-            clippy
-            rustfmt
-            rust-analyzer
-            openssl
+            (rust-bin // {distRoot = "https://mirrors.tuna.tsinghua.edu.cn/rustup";}).stable.latest.complete
             luajit
-            lua-language-server
+            openssl
+            libuv
+            iconv
           ];
           nativeBuildInputs = with pkgs; [
+            lua-language-server
             rustPlatform.bindgenHook
             pkg-config
           ];

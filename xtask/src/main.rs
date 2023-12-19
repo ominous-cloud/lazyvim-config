@@ -7,7 +7,14 @@ use std::{
 use clap::{command, Parser, Subcommand};
 
 type AnyError = Box<dyn std::error::Error>;
-const SO_FILE: &str = "mvim.so";
+
+#[cfg(target_os = "linux")]
+const CDYLIB_FILE: &str = "mvim.so";
+
+#[cfg(target_os = "macos")]
+const CDYLIB_FILE: &str = "libmvim.dylib";
+
+const RUNTIME_SO_FILE: &str = "mvim.so";
 
 #[derive(Debug, Parser)]
 #[command(name = "xtask")]
@@ -53,14 +60,14 @@ fn release() -> Result<(), AnyError> {
     let rtp = runtime_path();
     std::fs::create_dir_all(&rtp)?;
     std::fs::copy(
-        &project_root().join("target/release/libmvim.so"),
-        &rtp.join(SO_FILE),
+        &project_root().join("target/release").join(CDYLIB_FILE),
+        &rtp.join(RUNTIME_SO_FILE),
     )?;
     Ok(())
 }
 
 fn clean() -> Result<(), AnyError> {
-    std::fs::remove_file(runtime_path().join(SO_FILE))?;
+    std::fs::remove_file(runtime_path().join(RUNTIME_SO_FILE))?;
     Ok(())
 }
 
