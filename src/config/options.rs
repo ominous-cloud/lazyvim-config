@@ -62,10 +62,10 @@ pub(crate) fn setup() -> oxi::Result<()> {
     let transparent = api::opts::SetHighlightOpts::builder()
         .background("none")
         .build();
-    let unbold = api::opts::SetHighlightOpts::builder().bold(false).build();
+    // let unbold = api::opts::SetHighlightOpts::builder().bold(false).build();
     api::set_hl(0, "Normal", &transparent)?;
     api::set_hl(0, "StatusLine", &transparent)?;
-    api::set_hl(0, "Keyword", &unbold)?;
+    // api::set_hl(0, "Keyword", &unbold)?;
 
     Ok(())
 }

@@ -9,7 +9,8 @@ crate-type = ["cdylib"]
 
 [workspace]
 members = [
-    "xtask"
+    "xtask",
+    "mvim-lsp",
 ]
 
 [dependencies]
