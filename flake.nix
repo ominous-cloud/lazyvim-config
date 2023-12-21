@@ -16,6 +16,7 @@
           buildInputs = with pkgs; [
             sumneko-lua-language-server
             luajit
+            gcc
           ];
         };
       }
