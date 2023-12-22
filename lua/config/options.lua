@@ -18,9 +18,12 @@ vim.opt.spelllang = "en,cjk"
 vim.opt.termguicolors = true
 vim.opt.undofile = true
 
+if vim.fn.has "mac" then
+  vim.opt.clipboard = ""
+end
+
 -- reset lazyvim
 vim.opt.autowrite = false
-vim.opt.clipboard = "unnamed"
 vim.opt.completeopt = "menu,preview"
 vim.opt.conceallevel = 0
 vim.opt.confirm = false
