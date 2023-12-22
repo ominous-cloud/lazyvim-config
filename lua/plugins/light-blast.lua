@@ -6,6 +6,17 @@ return {
   { "rcarriga/nvim-notify",      enabled = false },
   { "folke/noice.nvim",          enabled = false },
   {
+    "folke/which-key.nvim",
+    opts = {
+      plugins = {
+        registers = false,
+        spelling = {
+          enable = false,
+        },
+      },
+    },
+  },
+  {
     "goolord/alpha-nvim",
     config = function()
       local config = require "alpha.themes.startify".config
