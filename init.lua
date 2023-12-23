@@ -5,8 +5,9 @@ local function load_plugins()
   require "lazy".setup {
     {
       "LazyVim/LazyVim",
-      priority = 1000,
-      import = "lazyvim.plugins",
+      priority = 10000,
+      { import = "config.lazy" },
+      { import = "lazyvim.plugins" },
     },
     { import = "plugins" },
   }
