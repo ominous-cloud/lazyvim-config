@@ -1,7 +1,7 @@
 -- local postfix = require("luasnip.extras.postfix").postfix
 
 return {
-    -- template
+  -- template
 }, {
-    -- autosnippets
+  -- autosnippets
 }
