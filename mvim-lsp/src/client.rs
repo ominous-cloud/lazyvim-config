@@ -1,20 +1,25 @@
 use std::io::Write;
 
-use {
-    anyhow::Context,
-    tokio::io::{AsyncBufReadExt, AsyncReadExt, AsyncWriteExt},
-};
+use anyhow::Context;
+use tokio::io::{AsyncBufReadExt, AsyncReadExt, AsyncWriteExt};
 
-struct Client {
+use crate::channel::{Message, Sender};
+
+pub struct Client {
     _server: tokio::process::Child,
-    handles: Vec<tokio::task::JoinHandle<anyhow::Result<()>>>,
+    pub handles: Vec<tokio::task::JoinHandle<anyhow::Result<()>>>,
 }
 
 impl Client {
     const ID_INIT: u64 = 0;
 
-    pub fn start(cmd: std::process::Command) -> anyhow::Result<Self> {
-        let mut server = tokio::process::Command::from(cmd)
+    pub async fn start(
+        mut cmd: tokio::process::Command,
+        pwd: String,
+        uv_tx: Sender,
+    ) -> anyhow::Result<Self> {
+        let mut server = cmd
+            .current_dir(&pwd)
             .stdin(std::process::Stdio::piped())
             .stdout(std::process::Stdio::piped())
             .stderr(std::process::Stdio::piped())
@@ -24,14 +29,12 @@ impl Client {
         let mut ts = server.stdin.take().context("take stdin")?;
         let mut rs = tokio::io::BufReader::new(server.stdout.take().context("take stdout")?);
 
-        let (itx, mut irx) = tokio::sync::mpsc::unbounded_channel();
+        let (itx, mut irx) = tokio::sync::mpsc::unbounded_channel::<()>();
 
-        let home = std::env::var("HOME")?;
-        let root = format!("{}/.config/nvim/mvim-lsp/", home);
-        let file = "src/main.rs";
+        let file = "mvim-lsp/src/main.rs";
         let init = lsp_types::InitializeParams {
-            process_id: Some(u32::from(std::process::id())),
-            root_uri: Some(lsp_types::Url::parse(format!("file://{}", root).as_str())?),
+            process_id: Some(std::process::id()),
+            root_uri: Some(lsp_types::Url::parse(format!("file://{}", pwd).as_str())?),
             ..Default::default()
         };
 
@@ -41,7 +44,7 @@ impl Client {
             irx.recv().await.unwrap();
 
             // do something after initialized
-            let _file_url = lsp_types::Url::parse(format!("file://{}{}", root, file).as_str())?;
+            let _file_url = lsp_types::Url::parse(format!("file://{}{}", &pwd, file).as_str())?;
 
             anyhow::Ok(())
         });
@@ -53,7 +56,7 @@ impl Client {
                     Some(message) => message,
                     None => return anyhow::Ok(()),
                 };
-                println!("message: {}", message);
+                uv_tx.send(Message::String(message.clone()))?;
                 let output: serde_json::Result<jsonrpc_core::Output> =
                     serde_json::from_str(&message);
                 if let Ok(jsonrpc_core::Output::Success(suc)) = output {
@@ -132,7 +135,7 @@ async fn read_message(
     let mut content = vec![0; length];
     reader.read_exact(&mut content).await?;
     let message = String::from_utf8(content)?;
-    return anyhow::Ok(Some(message));
+    anyhow::Ok(Some(message))
 }
 
 async fn send_message<T, R>(t: &mut T, req: R) -> anyhow::Result<()>
@@ -144,12 +147,7 @@ where
     let mut buf: Vec<u8> = Vec::new();
     write!(&mut buf, "Content-Length: {}\r\n\r\n{}", req.len(), req)?;
     t.write_all(&buf).await?;
-    Ok(())
-}
+    t.flush().await?;
 
-#[tokio::main]
-async fn main() -> anyhow::Result<()> {
-    let client = Client::start(std::process::Command::new("rust-analyzer"))?;
-    futures::future::join_all(client.handles).await;
     Ok(())
 }

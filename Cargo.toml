@@ -1,18 +1,7 @@
-[package]
-name = "mvim"
-version = "0.1.0"
-edition = "2021"
-publish = false
-
-[lib]
-crate-type = ["cdylib"]
-
 [workspace]
+resolver = "2"
 members = [
-    "xtask",
+    "mvim",
     "mvim-lsp",
+    "xtask",
 ]
-
-[dependencies]
-mlua = { version = "0.9.2", features = ["luajit", "macros"] }
-nvim-oxi = { version = "0.4.1", features = ["neovim-nightly", "libuv", "mlua"] }
