@@ -9,7 +9,7 @@ use clap::{command, Parser, Subcommand};
 type AnyError = Box<dyn std::error::Error>;
 
 #[cfg(target_os = "linux")]
-const CDYLIB_FILE: &str = "mvim.so";
+const CDYLIB_FILE: &str = "libmvim.so";
 
 #[cfg(target_os = "macos")]
 const CDYLIB_FILE: &str = "libmvim.dylib";

@@ -1,4 +1,4 @@
-function bootstrap()
+return function()
   local config_path = vim.fn.stdpath("config")
   local so_file = config_path .. "/lua/mvim.so"
   if not vim.loop.fs_stat(so_file) then
@@ -12,5 +12,3 @@ function bootstrap()
     end
   end
 end
-
-return bootstrap
