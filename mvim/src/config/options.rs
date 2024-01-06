@@ -52,7 +52,7 @@ pub(crate) fn setup() -> oxi::Result<()> {
         laststatus: 0,
         undofile: true,
         smoothscroll: true,
-        shortmess: "cSI" to append,
+        shortmess: "cI" to append,
         cinkeys: "0#" to remove,
         indentkeys: "0#" to remove,
     }
