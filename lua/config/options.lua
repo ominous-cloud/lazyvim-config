@@ -8,7 +8,7 @@ vim.opt.indentkeys:remove "0#"
 vim.opt.laststatus = 0
 vim.opt.ruler = false
 vim.opt.scrolloff = 5
-vim.opt.shortmess:append "cSI"
+vim.opt.shortmess:append "cI"
 vim.opt.showcmd = false
 vim.opt.showmode = false
 vim.opt.showtabline = 0
